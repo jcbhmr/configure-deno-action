@@ -34,8 +34,6 @@ jobs:
           inputs: '{"message":"Hello world!"}'
           env: ${{ toJSON(env) }}
           main: main.ts
-          pre: pre.ts
-          post: post.ts
         env:
           GITHUB_ACTION_PATH: ${{ github.workspace }}/test
       - shell: bash

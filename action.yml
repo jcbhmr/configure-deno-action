@@ -20,7 +20,15 @@ inputs:
 runs:
   using: node20
   main: src/main.js
-  pre-if: inputs.pre !=  ''
+  pre-if: |
+    inputs.pre &&
+    (inputs.pre-if == ''
+      && always()
+      || inputs.pre-if)
   pre: src/pre.js
-  post-if: inputs.post != ''
+  post-if: |
+    inputs.post &&
+    (inputs.post-if == ''
+      && always()
+      || inputs.post-if)
   post: src/post.js
