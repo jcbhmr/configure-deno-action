@@ -28,6 +28,5 @@ jobs:
       - uses: ./
         with:
           github-action-path: ${{ github.workspace }}/test
-          inputs: |
-            {"message":"Hello world!"}
+          inputs: '{"message":"Hello world!"}'
           main: main.ts

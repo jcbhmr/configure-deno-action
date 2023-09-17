@@ -1,16 +1,23 @@
 inputs:
   github-action-path:
+    description: github.action_path
     required: true
   inputs:
+    description: toJSON(inputs)
     required: true
   main:
+    description: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#runsmain
     required: true
   pre-if:
+    description: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#runspre-if
     default: false
   pre:
+    description: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#runspre
   post-if:
+    description: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#runspost-if
     default: false
   post:
+    description: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#runspost
 
 runs:
   using: node20
