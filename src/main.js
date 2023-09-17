@@ -10,13 +10,7 @@ console.debug(process.env);
 const rootPath = core.getInput("github-action-path", { required: true });
 const main = core.getInput("main", { required: true });
 const mainPath = join(rootPath, main);
-
 const inputs = JSONParse(core.getInput("inputs", { required: true }));
-const env = { ...process.env };
-env.GITHUB_ACTION_PATH = rootPath;
-for (const [name, value] of Object.entries(inputs)) {
-  env[`INPUT_${name.toUpperCase()}`] = value;
-}
 
 const response = await fetch("https://deno.com/versions.json");
 const json = await response.json();
@@ -40,5 +34,10 @@ const zipPath = await tc.downloadTool(baseHref + fileName);
 const extractedPath = await tc.extractZip(zipPath);
 process.env.PATH = process.env.PATH + delimiter + extractedPath;
 
+const env = {};
+env.GITHUB_ACTION_PATH = rootPath;
+for (const [name, value] of Object.entries(inputs)) {
+  env[`INPUT_${name.toUpperCase()}`] = value;
+}
 const $$ = $({ stdio: "inherit", env });
 await $$`deno run -Aq ${mainPath}`;
