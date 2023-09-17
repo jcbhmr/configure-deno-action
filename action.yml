@@ -20,7 +20,7 @@ inputs:
 runs:
   using: node20
   main: src/main.js
-  pre-if: inputs.pre
+  pre-if: inputs.pre !=  ''
   pre: src/pre.js
-  post-if: inputs.post
+  post-if: inputs.post != ''
   post: src/post.js
