@@ -1,3 +1,3 @@
 #!/usr/bin/env -S deno run -Aq
 console.log("%cHello %cworld!", "color:blue", "color:green");
-console.log("This is from main.ts");
+console.log("This is from post.ts");

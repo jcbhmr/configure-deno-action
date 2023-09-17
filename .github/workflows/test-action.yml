@@ -34,3 +34,4 @@ jobs:
           github-action-path: ${{ github.workspace }}/test
           inputs: '{"message":"Hello world!"}'
           main: main.ts
+          pre: 
