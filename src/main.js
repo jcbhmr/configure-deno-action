@@ -15,7 +15,7 @@ const inputs = JSONParse(core.getInput("inputs", { required: true }));
 const env = { ...process.env };
 env.GITHUB_ACTION_PATH = rootPath;
 for (const [name, value] of Object.entries(inputs)) {
-  inputsEnv[`INPUT_${name.toUpperCase()}`] = value;
+  env[`INPUT_${name.toUpperCase()}`] = value;
 }
 
 const response = await fetch("https://deno.com/versions.json");
