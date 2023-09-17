@@ -1,3 +1,7 @@
 {
-  "type": "module"
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "zx": "^7.2.3"
+  }
 }

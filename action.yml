@@ -1,16 +1,13 @@
-name: "Setup gh cli"
-description:
-  "Setup gh cli in self-hosted runners. This action is to setup gh cli in
-  self-hosted runners"
-
 inputs:
   inputs:
     required: true
   main:
     required: true
   pre-if:
+    default: false
   pre:
   post-if:
+    default: false
   post:
 
 runs:

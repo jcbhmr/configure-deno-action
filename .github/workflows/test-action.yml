@@ -1,0 +1,28 @@
+name: Test action
+on:
+  push:
+    branches: "main"
+    paths-ignore:
+      - .gitignore
+      - LICENSE
+      - README.md
+      - .github/**
+      - "!.github/workflows/test-action.yml"
+  pull_request:
+    paths-ignore:
+      - .gitignore
+      - LICENSE
+      - README.md
+      - .github/**
+      - "!.github/workflows/test-action.yml"
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # - run: npm ci
+      - run: npm install
+      - uses: ./test
