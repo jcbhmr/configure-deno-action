@@ -17,8 +17,22 @@ inputs:
   post:
     description: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#runspost
 
+outputs:
+  raw-inputs:
+    value: ${{ toJSON(inputs) }}
+
 runs:
   using: node20
   main: src/main.js
+  pre-if: |
+    inputs.pre &&
+    (inputs.pre-if == ''
+      && always()
+      || inputs.pre-if)
   pre: src/pre.js
+  post-if: |
+    inputs.post &&
+    (inputs.post-if == ''
+      && always()
+      || inputs.post-if)
   post: src/post.js

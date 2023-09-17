@@ -28,7 +28,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm install
-      - uses: ./
+      - id: main
+        uses: ./
         with:
           inputs: '{"message":"Hello world!"}'
           env: ${{ toJSON(env) }}
@@ -37,3 +38,7 @@ jobs:
           post: post.ts
         env:
           GITHUB_ACTION_PATH: ${{ github.workspace }}/test
+      - shell: bash
+        run: echo "$OUTPUTS" | jq
+        env:
+          OUTPUTS: ${{ toJSON(steps.main.outputs) }}
