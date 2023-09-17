@@ -30,12 +30,10 @@ jobs:
       - run: npm install
       - uses: ./
         with:
+          inputs: '{"message":"Hello world!"}'
           env: ${{ toJSON(env) }}
           main: main.ts
-          pre-if: false
           pre: pre.ts
-          post-if: false
           post: post.ts
         env:
           GITHUB_ACTION_PATH: ${{ github.workspace }}/test
-          INPUT_MESSAGE: Hello world!

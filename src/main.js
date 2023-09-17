@@ -4,11 +4,26 @@ import * as core from "@actions/core";
 import * as tc from "@actions/tool-cache";
 import { $ } from "execa";
 import JSONParse from "json-parse-even-better-errors";
+import assert from "node:assert";
+
+const inputs = JSONParse(core.getInput("inputs", { required: true }));
+assert.equal(typeof inputs, "object");
+for (const [name, value] of Object.entries(inputs)) {
+  assert.equal(typeof value, "string");
+}
 
 const env = JSONParse(core.getInput("env", { required: true }));
-const rootPath = env.GITHUB_ACTION_PATH;
+assert.equal(typeof env, "object");
+for (const [name, value] of Object.entries(env)) {
+  assert.equal(typeof value, "string");
+}
+
+for (const [name, value] of Object.entries(inputs)) {
+  env[`INPUT_${name.toUpperCase()}`] = value;
+}
+
 const main = core.getInput("main", { required: true });
-const mainPath = join(rootPath, main);
+const mainPath = join(env.GITHUB_ACTION_PATH, main);
 
 const response = await fetch("https://deno.com/versions.json");
 const json = await response.json();
@@ -23,12 +38,11 @@ const platform = {
   darwin: "apple-darwin",
   win32: "pc-windows-msvc",
 }[process.platform];
-const target = `${arch}-${platform}`;
-
 const baseHref = `https://github.com/denoland/deno/releases/download/v${version}/`;
-const fileName = `deno-${target}.zip`;
+const fileName = `deno-${arch}-${platform}.zip`;
+const url = baseHref + fileName;
 
-const zipPath = await tc.downloadTool(baseHref + fileName);
+const zipPath = await tc.downloadTool(url);
 const extractedPath = await tc.extractZip(zipPath);
 process.env.PATH += delimiter + extractedPath;
 env.PATH += delimiter + extractedPath;
