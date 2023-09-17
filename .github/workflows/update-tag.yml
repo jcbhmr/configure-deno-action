@@ -1,0 +1,23 @@
+name: Update @1
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        type: choice
+        default: "1"
+        options: ["1"]
+jobs:
+  update-1:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: rm .gitignore
+      - run: npm install
+      - run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - run: git add -Av && git commit -m Build
+      - run: git tag -f ${{ inputs.tag }}
+      - run: git push -f origin ${{ inputs.tag }}
