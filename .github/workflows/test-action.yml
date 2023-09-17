@@ -25,4 +25,9 @@ jobs:
       - uses: actions/checkout@v4
       # - run: npm ci
       - run: npm install
-      - uses: ./test
+      - uses: ./
+        with:
+          github-action-path: ${{ github.workspace }}/test
+          inputs: |
+            {"message":"Hello world!"}
+          main: main.ts

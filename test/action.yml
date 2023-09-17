@@ -1,8 +1,0 @@
-runs:
-  using: composite
-  steps:
-    - uses: ././
-      with:
-        github-action-path: ${{ github.action_path }}
-        inputs: ${{ toJSON(inputs) }}
-        main: main.ts
