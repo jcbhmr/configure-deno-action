@@ -1,18 +1,3 @@
 #!/usr/bin/env node
-import * as core from "@actions/core";
-import { $ } from "execa";
-import JSONParse from "json-parse-even-better-errors";
-import { join } from "node:path";
-import setupDeno from "./lib/setupDeno.js";
-
-const $$ = $({ stdio: "inherit" });
-
-const githubActionPath = core.getInput("github-action-path", {
-  required: true,
-});
-const inputs = JSONParse(core.getInput("inputs", { required: true }));
-const post = core.getInput("post", { required: true });
-const postPath = join(githubActionPath, post);
-
-await setupDeno();
-await $$`deno run -Aq ${postPath}`;
+process.env.INPUT_MAIN = process.env.INPUT_POST;
+await import("./main.js");
