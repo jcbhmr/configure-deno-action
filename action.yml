@@ -1,4 +1,6 @@
 inputs:
+  github-action-path:
+    required: true
   inputs:
     required: true
   main:

@@ -1,7 +1,7 @@
 runs:
   using: composite
   steps:
-    - uses: ./
+    - uses: ././
       with:
         github-action-path: ${{ github.action_path }}
         inputs: ${{ toJSON(inputs) }}
