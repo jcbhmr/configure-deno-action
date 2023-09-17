@@ -1,3 +1,5 @@
 #!/usr/bin/env -S deno run -Aq
-console.log("%cHello %cworld!", "color:blue", "color:green");
-console.log("This is from pre.ts");
+import * as core from "@actions/core";
+
+const message = core.getInput("message", { required: true });
+console.log(message);
