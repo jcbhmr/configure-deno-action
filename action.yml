@@ -10,10 +10,12 @@ inputs:
     required: true
   pre-if:
     description: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#runspre-if
+    default: true
   pre:
     description: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#runspre
   post-if:
     description: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#runspost-if
+    default: true
   post:
     description: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#runspost
 
