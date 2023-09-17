@@ -1,14 +1,18 @@
 #!/usr/bin/env node
-import { $ } from "zx";
+import * as core from "@actions/core";
+import { $ } from "execa";
+import JSONParse from "json-parse-even-better-errors";
 import { join } from "node:path";
+import setupDeno from "./lib/setupDeno.js";
 
-process.env.DENO_INSTALL = join(process.env.RUNNER_TEMP, "using-deno1");
-await $`curl -fsSL https://deno.land/x/install/install.sh | sh`;
-process.env.PATH = `${process.env.PATH}:${join(
-  process.env.DENO_INSTALL,
-  "bin"
-)}`;
-await $`deno run -Aq ${join(
-  process.env["INPUT_GITHUB-ACTION-PATH"],
-  process.env.INPUT_MAIN
-)}`;
+const $$ = $({ stdio: "inherit" });
+
+const githubActionPath = core.getInput("github-action-path", {
+  required: true,
+});
+const inputs = JSONParse(core.getInput("inputs", { required: true }));
+const main = core.getInput("main", { required: true });
+const mainPath = join(githubActionPath, main);
+
+await setupDeno();
+await $$`deno run -Aq ${mainPath}`;

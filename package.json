@@ -2,6 +2,9 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "zx": "^7.2.3"
+    "@actions/core": "*",
+    "@actions/tool-cache": "*",
+    "execa": "*",
+    "json-parse-even-better-errors": "*"
   }
 }
