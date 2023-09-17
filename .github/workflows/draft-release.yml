@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
 jobs:
   draft-release:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,4 +19,5 @@ jobs:
       - run: gh release create ' ' -d --target $(git rev-parse HEAD~1)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: git push -d origin $(git branch --show-current)
+      - if: always()
+        run: git push -d origin $(git branch --show-current)
