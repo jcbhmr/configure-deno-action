@@ -1,0 +1,22 @@
+name: "Setup gh cli"
+description:
+  "Setup gh cli in self-hosted runners. This action is to setup gh cli in
+  self-hosted runners"
+
+inputs:
+  inputs:
+    required: true
+  main:
+    required: true
+  pre-if:
+  pre:
+  post-if:
+  post:
+
+runs:
+  using: node20
+  main: src/main.js
+  pre-if: ${{ inputs.pre-if }}
+  pre: src/pre.js
+  post-if: ${{ inputs.post-if }}
+  post: src/post.js
