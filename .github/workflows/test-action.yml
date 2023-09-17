@@ -38,3 +38,4 @@ jobs:
           post: post.ts
         env:
           GITHUB_ACTION_PATH: ${{ github.workspace }}/test
+          INPUT_MESSAGE: Hello world!
