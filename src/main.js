@@ -4,7 +4,6 @@ import * as core from "@actions/core";
 import * as tc from "@actions/tool-cache";
 import { $ } from "execa";
 import JSONParse from "json-parse-even-better-errors";
-import setupDeno from "./lib/setupDeno.js";
 
 console.debug(process.env);
 
