@@ -22,7 +22,7 @@ inputs:
 runs:
   using: node20
   main: src/main.js
-  pre-if: inputs.pre && inputs.pre-if
+  pre-if: inputs.pre && pre-if != 'false'
   pre: src/pre.js
-  post-if: inputs.post && inputs.post-if
+  post-if: inputs.post && post-if != 'false'
   post: src/post.js
