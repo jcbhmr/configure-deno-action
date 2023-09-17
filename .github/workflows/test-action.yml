@@ -19,7 +19,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  main-only:
+  test-action:
     strategy:
       fail-fast: false
       matrix:
@@ -27,46 +27,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      # - run: npm ci
       - run: npm install
       - uses: ./
         with:
-          github-action-path: ${{ github.workspace }}/test
-          inputs: '{"message":"Hello world!"}'
-          main: main.ts
-  pre-and-post-undefined:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      # - run: npm ci
-      - run: npm install
-      - uses: ./
-        with:
-          github-action-path: ${{ github.workspace }}/test
-          inputs: '{"message":"Hello world!"}'
-          main: main.ts
-          pre: pre.ts
-          post: post.ts
-  pre-and-post-false:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      # - run: npm ci
-      - run: npm install
-      - uses: ./
-        with:
-          github-action-path: ${{ github.workspace }}/test
-          inputs: '{"message":"Hello world!"}'
+          env: ${{ toJSON(env) }}
           main: main.ts
           pre-if: false
           pre: pre.ts
           post-if: false
           post: post.ts
+        env:
+          GITHUB_ACTION_PATH: ${{ github.workspace }}/test

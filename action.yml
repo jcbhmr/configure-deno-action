@@ -1,9 +1,6 @@
 inputs:
-  github-action-path:
-    description: github.action_path
-    required: true
-  inputs:
-    description: toJSON(inputs)
+  env:
+    description: toJSON(env)
     required: true
   main:
     description: https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#runsmain
@@ -20,13 +17,13 @@ inputs:
 runs:
   using: node20
   main: src/main.js
-  pre-if: >
+  pre-if: |
     inputs.pre &&
     (inputs.pre-if == ''
       && always()
       || inputs.pre-if)
   pre: src/pre.js
-  post-if: >
+  post-if: |
     inputs.post &&
     (inputs.post-if == ''
       && always()

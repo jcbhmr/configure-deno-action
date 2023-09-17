@@ -5,12 +5,10 @@ import * as tc from "@actions/tool-cache";
 import { $ } from "execa";
 import JSONParse from "json-parse-even-better-errors";
 
-console.debug(process.env);
-
-const rootPath = core.getInput("github-action-path", { required: true });
+const env = JSONParse(core.getInput("env", { required: true }));
+const rootPath = env.GITHUB_ACTION_PATH;
 const main = core.getInput("main", { required: true });
 const mainPath = join(rootPath, main);
-const inputs = JSONParse(core.getInput("inputs", { required: true }));
 
 const response = await fetch("https://deno.com/versions.json");
 const json = await response.json();
@@ -32,12 +30,8 @@ const fileName = `deno-${target}.zip`;
 
 const zipPath = await tc.downloadTool(baseHref + fileName);
 const extractedPath = await tc.extractZip(zipPath);
-process.env.PATH = process.env.PATH + delimiter + extractedPath;
+process.env.PATH += delimiter + extractedPath;
+env.PATH += delimiter + extractedPath;
 
-const env = {};
-env.GITHUB_ACTION_PATH = rootPath;
-for (const [name, value] of Object.entries(inputs)) {
-  env[`INPUT_${name.toUpperCase()}`] = value;
-}
 const $$ = $({ stdio: "inherit", env });
 await $$`deno run -Aq ${mainPath}`;
