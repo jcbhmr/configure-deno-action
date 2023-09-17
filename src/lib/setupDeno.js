@@ -18,7 +18,7 @@ export default async function setupDeno() {
   }[process.platform];
   const target = `${arch}-${platform}`;
 
-  const baseHref = `https://github.com/denoland/deno/releases/download/${version}/`;
+  const baseHref = `https://github.com/denoland/deno/releases/download/v${version}/`;
   const fileName = `deno-${target}.zip`;
 
   const zipPath = await tc.downloadTool(baseHref + fileName);
