@@ -1,0 +1,13 @@
+inputs:
+  format:
+    default: Hello %s!
+
+outputs:
+  output: {}
+
+runs:
+  using: node20
+  main: _start
+
+  using2: deno1
+  main2: main.ts

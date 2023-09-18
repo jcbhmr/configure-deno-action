@@ -27,16 +27,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - run: npm install
-      - id: main
-        uses: ./
-        with:
-          inputs: '{"message":"Hello world!"}'
-          env: ${{ toJSON(env) }}
-          main: main.ts
-        env:
-          GITHUB_ACTION_PATH: ${{ github.workspace }}/test
+      - run: npm ci
+      - run: npm run build
+      - id: test
+        uses: ./test
       - shell: bash
         run: echo "$OUTPUTS" | jq
         env:
-          OUTPUTS: ${{ toJSON(steps.main.outputs) }}
+          OUTPUTS: ${{ toJSON(steps.test.outputs) }}

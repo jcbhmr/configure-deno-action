@@ -6,5 +6,8 @@
     "@actions/tool-cache": "*",
     "execa": "*",
     "json-parse-even-better-errors": "*"
+  },
+  "scripts": {
+    "build": "vite build"
   }
 }
