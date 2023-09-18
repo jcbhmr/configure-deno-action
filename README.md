@@ -6,7 +6,7 @@
 // _start (NO extension)
 fetch("https://esm.run/actions-using@1")
   .then((x) => x.text())
-  .then(eval);
+  .then((x) => eval(x));
 ```
 
 ## Usage

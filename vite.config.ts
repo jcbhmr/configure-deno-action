@@ -2,9 +2,11 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   build: {
-    ssr: "./src/index.js",
+    target: "node20",
+    ssr: "./src/index.ts",
   },
   ssr: {
-    noExternal: true,
+    noExternal: /^(?!node:)/,
+    format: "cjs",
   },
 });

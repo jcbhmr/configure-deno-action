@@ -1,1 +1,3 @@
-require("node:fs/promises").readFile("../dist/index.js", "utf-8").then(eval);
+require("node:fs/promises")
+  .readFile("../dist/index.js", "utf-8")
+  .then((x) => eval(x));

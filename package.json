@@ -1,6 +1,6 @@
 {
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "@actions/core": "*",
     "@actions/tool-cache": "*",
@@ -9,5 +9,11 @@
   },
   "scripts": {
     "build": "vite build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.6.2",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
   }
 }
