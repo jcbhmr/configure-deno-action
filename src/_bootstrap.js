@@ -21,15 +21,12 @@
     if (url.startsWith(__UNPKG_BASE_URL__)) {
       const response = await fetch(url);
       if (!response.ok) {
-        throw new DOMException(
-          `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-          "NetworkError"
-        );
+        throw new Error(`${response.url} ${response.status}`);
       }
       let format;
       const type = response.headers.get("Content-Type");
       if (!type) {
-        throw new ReferenceError("Missing Content-Type header");
+        throw new Error(`${response.url} is missing Content-Type`);
       }
       if (/javascript|ecmascript/.test(type)) {
         format = "module";
@@ -40,7 +37,7 @@
       } else if (type === "application/wasm") {
         format = "wasm";
       } else {
-        throw new DOMException(`${type} is not supported`, "NotSupportedError");
+        throw new Error(`${type} is not supported`);
       }
       const buffer = await response.arrayBuffer();
       return { format, source: buffer, shortCircuit: true };
