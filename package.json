@@ -9,8 +9,8 @@
     "glob": "^10.3.4",
     "yaml": "^2.3.2"
   },
-  "unpkg": "dist/index.cjs",
-  "exports": "./dist/index.cjs",
+  "unpkg": "dist/_bootstrap.js",
+  "exports": null,
   "scripts": {
     "test:server": "quick-serve dist/index.cjs 8378",
     "build": "vite build"
@@ -19,6 +19,7 @@
     "@types/node": "^20.6.2",
     "prettier": "^3.0.3",
     "quick-serve": "^1.0.0",
+    "terser": "^5.19.4",
     "typescript": "^5.2.2",
     "vite": "^4.4.9"
   }

@@ -19,7 +19,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  test-action:
+  deno1:
     strategy:
       fail-fast: false
       matrix:
@@ -31,7 +31,7 @@ jobs:
       - run: npm run build
       - run: nohup npm run test:server & sleep 3
       - id: test
-        uses: ./test
+        uses: ./test/deno1
       - shell: bash
         run: echo "$OUTPUTS" | jq
         env:

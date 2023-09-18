@@ -1,0 +1,7 @@
+runs:
+  using: node20
+  main: _main
+
+.runs:
+  using: python3
+  main: main.py

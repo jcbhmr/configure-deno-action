@@ -1,31 +1,31 @@
-// import "./lib/fix-stacktrace.js";
-// import { createRequire } from "node:module";
-// import * as core from "@actions/core";
-// import * as tc from "@actions/tool-cache";
-// import { $ } from "execa";
-// import { glob } from "glob";
-// import { tmpdir } from "node:os";
-// import { join } from "node:path";
-// import { pipeline } from "node:stream/promises";
-// import { createWriteStream } from "node:fs";
-// import loadAction from "./loadAction.js";
+import { createRequire } from "node:module";
+import readAction, { resolveAction } from "./lib/readAction.js";
+import { dirname, resolve } from "node:path";
 
-// const version = (
-//   await (await fetch("https://deno.com/versions.json")).json()
-// ).cli
-//   .find((x) => x.startsWith("v1."))
-//   .slice(1);
+const actionPath = await resolveAction();
+const action = await readAction(actionPath);
+const { runs, ".runs": $runs } = action;
 
-// process.env.DENO_INSTALL = join(tmpdir(), "deno");
-// await pipeline(
-//   (await fetch("https://deno.land/install.sh")).body as any,
-//   createWriteStream(join(process.env.DENO_INSTALL, "install.sh"))
-// );
+const require = createRequire(actionPath);
+const argv1 = require.resolve(process.argv[1]);
 
-// await $`sh ${join(process.env.DENO_INSTALL, "install.sh")} v${version}`;
+const stage = (
+  {
+    [runs.pre && resolve(dirname(actionPath), runs.pre)]: "pre",
+    [resolve(dirname(actionPath), runs.main)]: "main",
+    [runs.post && resolve(dirname(actionPath), runs.post)]: "post",
+  } as const
+)[argv1];
+if (!stage) {
+  throw new DOMException(
+    `Could not find stage for ${process.argv[1]}`,
+    "NotFoundError"
+  );
+}
 
-// core.addPath(join(process.env.DENO_INSTALL, "bin"));
+const runtimes = {
+  deno1: () => import("./deno1.js"),
+};
 
-// await $({ stdio: "inherit" })`deno run -Aq ${entry}`;
-
-console.log(process.env);
+const { default: runtime } = await runtimes[$runs.using]();
+await runtime($runs[stage]);
