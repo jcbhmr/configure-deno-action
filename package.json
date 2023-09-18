@@ -10,7 +10,6 @@
     "yaml": "^2.3.2"
   },
   "unpkg": "dist/_bootstrap.js",
-  "exports": null,
   "scripts": {
     "build": "vite build"
   },
