@@ -10,8 +10,10 @@ export default async function bun1(action: File, file: string) {
       "https://api.github.com/repos/oven-sh/bun/releases"
     );
     const json = (await response.json()) as { tag_name: string }[];
-    const tag = json.map((x) => x.tag_name).find((x) => x.startsWith("v1."));
-    return tag.slice(1);
+    const tag = json
+      .map((x) => x.tag_name)
+      .find((x) => x.startsWith("bun-v1."));
+    return tag.slice(5);
   })();
   const bunInstall = join(process.env.RUNNER_TEMP, "bun");
   await mkdir(bunInstall, { recursive: true });
