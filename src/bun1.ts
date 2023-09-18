@@ -23,7 +23,7 @@ export default async function bun1(action: File, file: string) {
     await pipeline(response.body as any, createWriteStream(install));
   }
   process.env.BUN_INSTALL = bunInstall;
-  await $`sh ${install} bun-v${version}`;
+  await $`bash ${install} bun-v${version}`;
   const bin = join(bunInstall, "bin");
   process.env.PATH += delimiter + bin;
   const $$ = $({ stdio: "inherit" });
