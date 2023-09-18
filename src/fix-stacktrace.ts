@@ -1,10 +1,10 @@
 const customErrorPrepareStackTrace = ((error, stack) => {
   Error.prepareStackTrace = ErrorPrepareStackTrace;
-  Error.captureStackTrace(error, customErrorPrepareStackTrace);
+  error.stack = error.stack;
   Error.prepareStackTrace = customErrorPrepareStackTrace;
   error.stack = error.stack!.replaceAll(
-    /data:\S{30,}/g,
-    (match) => match.slice(0, 30) + "..."
+    /data:\S{70,}/g,
+    (match: string) => match.slice(0, 70) + "..."
   );
   return error.stack;
 }) satisfies typeof Error.prepareStackTrace;
