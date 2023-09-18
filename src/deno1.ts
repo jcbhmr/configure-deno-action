@@ -3,10 +3,12 @@ import { pipeline } from "node:stream/promises";
 import { createWriteStream } from "node:fs";
 import { $ } from "execa";
 import { mkdir } from "node:fs/promises";
+import assert from "node:assert";
 
 export default async function deno1(action: File, file: string) {
   const version = await (async () => {
     const response = await fetch("https://deno.com/versions.json");
+    assert(response.ok, `${response.url} ${response.status}`);
     const json = (await response.json()) as { cli: string[] };
     const tag = json.cli.find((x) => x.startsWith("v1."));
     return tag.slice(1);

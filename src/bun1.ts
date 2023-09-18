@@ -3,12 +3,14 @@ import { pipeline } from "node:stream/promises";
 import { createWriteStream } from "node:fs";
 import { $ } from "execa";
 import { mkdir } from "node:fs/promises";
+import assert from "node:assert";
 
 export default async function bun1(action: File, file: string) {
   const version = await (async () => {
     const response = await fetch(
       "https://api.github.com/repos/oven-sh/bun/releases"
     );
+    assert(response.ok, `${response.url} ${response.status}`);
     const json = (await response.json()) as { tag_name: string }[];
     const tag = json
       .map((x) => x.tag_name)
