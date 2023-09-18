@@ -1,0 +1,3 @@
+fetch("http://localhost:8378/dist/_bootstrap.js").then(async (r) =>
+  eval(await r.text())
+);

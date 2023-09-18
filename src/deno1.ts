@@ -15,7 +15,7 @@ export default async function deno1(action: File, file: string) {
   await mkdir(denoInstall, { recursive: true });
   const installSh = join(denoInstall, "install.sh");
   {
-    const response = await fetch("https://deno.land/install.sh");
+    const response = await fetch("https://deno.land/x/install/install.sh");
     await pipeline(response.body as any, createWriteStream(installSh));
   }
   process.env.DENO_INSTALL = denoInstall;
