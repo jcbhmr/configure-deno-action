@@ -7,6 +7,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pipeline } from "node:stream/promises";
 import { createWriteStream } from "node:fs";
+import "./fix-stacktrace.js";
 
 let entry = globalThis.entry as string;
 if (!entry) {

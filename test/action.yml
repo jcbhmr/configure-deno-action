@@ -5,10 +5,15 @@ inputs:
 outputs:
   output: {}
 
-.runs:
-  using: deno1
 runs:
   using: node20
-  main: main
-  pre: pre
-  post: post
+  main: .using-deno/main
+  pre: .using-deno/pre
+  post: .using-deno/post
+.runs:
+  using: deno1
+  main: main.ts
+  pre-if: always()
+  pre: pre.ts
+  post-if: always()
+  post: post.ts
