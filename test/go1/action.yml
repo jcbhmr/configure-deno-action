@@ -1,7 +1,0 @@
-runs:
-  using: node20
-  main: _main
-
-.runs:
-  using: go1
-  main: main.go

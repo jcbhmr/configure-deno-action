@@ -1,3 +1,0 @@
-fetch("http://localhost:8378/_bootstrap.js").then(async (r) =>
-  eval(await r.text())
-);
