@@ -8,8 +8,8 @@ outputs:
 runs:
   using: node20
   main: _start
+  pre: _start
+  post: _start
 
-  # using2: deno1
-  # main2: main.ts
-
-hello: {}
+  .using: deno1
+  .main: main.ts
