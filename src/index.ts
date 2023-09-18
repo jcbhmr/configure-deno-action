@@ -2,7 +2,7 @@ import { createRequire } from "node:module";
 import readAction, { resolveAction } from "./lib/readAction.js";
 import { dirname, resolve } from "node:path";
 
-console.log(process.argv);
+console.log(process.execArgv, process.argv);
 
 const actionPath = await resolveAction();
 const action = await readAction(actionPath);
