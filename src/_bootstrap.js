@@ -59,7 +59,7 @@
       "--loader",
       toDataURL(loaderJS, "text/javascript"),
       "--import",
-      __UNPKG_BASE_URL__ + "dist/main.js",
+      __UNPKG_BASE_URL__ + "dist/index.js",
       "-e",
       "",
       ...process.argv.slice(2),
