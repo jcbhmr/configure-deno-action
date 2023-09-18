@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { basename, dirname } from "node:path";
+import { basename, dirname, resolve } from "node:path";
 import { findUp } from "find-up";
 import { openAsBlob } from "node:fs";
 import * as YAML from "yaml";
@@ -18,10 +18,9 @@ const action = await (async () => {
   (file as any).webkitRelativePath = path;
   return file;
 })();
-const require = createRequire(action.webkitRelativePath);
 const { runs, ".runs": $runs } = YAML.parse(await action.text());
 const stage = ["pre", "main", "post"]
   .filter((x) => $runs[x])
-  .find((x) => require.resolve(runs[x]) === entry);
+  .find((x) => resolve(action.webkitRelativePath, runs[x]) === entry);
 const { default: runtime } = await runtimes[$runs.using]();
 await runtime(action, $runs[stage]);
