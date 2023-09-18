@@ -2,6 +2,7 @@ import { access, readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { createRequire } from "node:module";
 import * as YAML from "yaml";
+import { existsSync } from "node:fs";
 
 async function resolveAction(): Promise<string> {
   const require = createRequire(process.argv[1]);
@@ -13,8 +14,7 @@ async function resolveAction(): Promise<string> {
   ) {
     for (const file of ["action.yml", "action.yaml"]) {
       const filePath = join(path, file);
-      console.log(filePath);
-      if ((await access(filePath).catch(() => {})) != null) {
+      if (existsSync(filePath)) {
         return filePath;
       }
     }
