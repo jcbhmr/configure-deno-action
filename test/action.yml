@@ -5,7 +5,10 @@ inputs:
 outputs:
   output: {}
 
+.runs:
+  using: deno1
 runs:
   using: node20
   main: main
+  pre: pre
   post: post
