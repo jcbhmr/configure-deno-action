@@ -7,5 +7,5 @@ outputs:
 
 runs:
   using: node20
-  main: _start
-  post: _start
+  main: main
+  post: post

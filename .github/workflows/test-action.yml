@@ -29,6 +29,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: npm ci
       - run: npm run build
+      - run: nohup npm run test:server & sleep 3
       - id: test
         uses: ./test
       - shell: bash
