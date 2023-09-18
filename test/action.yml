@@ -7,9 +7,9 @@ outputs:
 
 runs:
   using: node20
-  main: .using-deno/main
-  pre: .using-deno/pre
-  post: .using-deno/post
+  main: _start
+  pre: _start
+  post: _start
 
   pre-if: always()
   post-if: always()
