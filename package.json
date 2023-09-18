@@ -11,7 +11,7 @@
   "unpkg": "dist/index.cjs",
   "exports": "./dist/index.cjs",
   "scripts": {
-    "test:server": "quick-serve dist/index.js 8378",
+    "test:server": "quick-serve dist/index.cjs 8378",
     "build": "vite build"
   },
   "devDependencies": {
