@@ -22,6 +22,7 @@ const action = await (async () => {
 const { runs, ".runs": $runs } = YAML.parse(await action.text());
 const stage = ["pre", "main", "post"].find((x) => {
   const absolute = join(dirname(action.webkitRelativePath), runs[x] ?? "");
+  console.debug(absolute, runs, x, action.webkitRelativePath);
   return require.resolve(absolute) === entry;
 });
 const { default: runtime } = await runtimes[$runs.using]();
