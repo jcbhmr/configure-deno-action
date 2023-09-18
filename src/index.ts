@@ -22,6 +22,6 @@ const require = createRequire(action.webkitRelativePath);
 const { runs, ".runs": $runs } = YAML.parse(await action.text());
 const stage = ["pre", "main", "post"]
   .filter((x) => $runs[x])
-  .find((x) => require.resolve($runs[x]) === entry);
+  .find((x) => require.resolve(runs[x]) === entry);
 const { default: runtime } = await runtimes[$runs.using]();
 await runtime(action, $runs[stage]);
