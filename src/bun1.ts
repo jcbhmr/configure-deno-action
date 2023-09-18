@@ -22,6 +22,7 @@ export default async function bun1(action: File, file: string) {
   const install = join(bunInstall, "install");
   {
     const response = await fetch("https://bun.sh/install");
+    assert(response.ok, `${response.url} ${response.status}`);
     await pipeline(response.body as any, createWriteStream(install));
   }
   process.env.BUN_INSTALL = bunInstall;
