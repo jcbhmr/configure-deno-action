@@ -12,7 +12,6 @@
   "unpkg": "dist/_bootstrap.js",
   "exports": null,
   "scripts": {
-    "test:server": "quick-serve dist/index.cjs 8378",
     "build": "vite build"
   },
   "devDependencies": {

@@ -11,11 +11,11 @@ function myPlugin() {
       const packageText = await readFile("package.json", "utf8");
       const { name, version } = JSON.parse(packageText);
 
+      const unpkgBaseURL =
+        process.env.UNPKG_BASE_URL ?? `https://unpkg.com/${name}@${version}/`;
+
       let js = await readFile("src/_bootstrap.js", "utf8");
-      js = js.replaceAll(
-        "__UNPKG_BASE_URL__",
-        JSON.stringify(`https://unpkg.com/${name}@${version}/`)
-      );
+      js = js.replaceAll("__UNPKG_BASE_URL__", JSON.stringify(unpkgBaseURL));
       js = "export default " + js;
       js = (await minify(js)).code!;
       js = js.replace(/^export default ?/, "");
