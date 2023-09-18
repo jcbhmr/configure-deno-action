@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { basename, dirname, join, resolve } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { findUp } from "find-up";
 import { openAsBlob } from "node:fs";
 import * as YAML from "yaml";
@@ -21,7 +21,7 @@ const action = await (async () => {
 })();
 const { runs, ".runs": $runs } = YAML.parse(await action.text());
 const stage = ["pre", "main", "post"].find((x) => {
-  const absolute = join(action.webkitRelativePath, runs[x] ?? "");
+  const absolute = join(dirname(action.webkitRelativePath), runs[x] ?? "");
   return require.resolve(absolute) === entry;
 });
 const { default: runtime } = await runtimes[$runs.using]();
