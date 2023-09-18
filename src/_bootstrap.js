@@ -64,7 +64,7 @@
       __UNPKG_BASE_URL__ + "dist/index.js",
       "-e",
       "",
-      ...process.argv.slice(2),
+      ...process.argv.slice(1),
     ],
     {
       stdio: "inherit",
