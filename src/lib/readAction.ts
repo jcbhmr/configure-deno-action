@@ -1,5 +1,5 @@
 import { access, readFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
+import { dirname, join } from "node:path";
 import { createRequire } from "node:module";
 import * as YAML from "yaml";
 
@@ -8,11 +8,12 @@ async function resolveAction(): Promise<string> {
   const entry = require.resolve(process.argv[1]);
   for (
     let path = dirname(entry);
-    resolve(path, "..") !== path;
-    path = resolve(path, "..")
+    dirname(path) !== path;
+    path = dirname(path)
   ) {
     for (const file of ["action.yml", "action.yaml"]) {
-      const filePath = resolve(path, file);
+      const filePath = join(path, file);
+      console.log(filePath);
       if ((await access(filePath).catch(() => {})) != null) {
         return filePath;
       }
