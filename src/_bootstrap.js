@@ -18,7 +18,7 @@
   }
 
   async function load(url, context, next) {
-    if (specifier.startsWith(__UNPKG_BASE_URL__)) {
+    if (url.startsWith(__UNPKG_BASE_URL__)) {
       const response = await fetch(url);
       if (!response.ok) {
         throw new DOMException(
