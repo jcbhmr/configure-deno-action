@@ -31,7 +31,8 @@ jobs:
       - run: npm run build
         env:
           UNPKG_BASE_URL: http://localhost:8378/
-      - run: nohup npx serve -p 8378 & sleep 5
+      - shell: bash
+        run: nohup npx serve -p 8378 & sleep 5
       - id: test
         uses: ./test/deno1
   bun1:
@@ -46,6 +47,7 @@ jobs:
       - run: npm run build
         env:
           UNPKG_BASE_URL: http://localhost:8378/
-      - run: nohup npx serve -p 8378 & sleep 5
+      - shell: bash
+        run: nohup npx serve -p 8378 & sleep 5
       - id: test
         uses: ./test/bun1
