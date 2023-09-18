@@ -7,11 +7,13 @@
 
     if (specifier.startsWith(__UNPKG_BASE_URL__)) {
       return { url: specifier, shortCircuit: true };
-    } else if (
-      parentURL?.startsWith(__UNPKG_BASE_URL__) &&
-      /^\.?\.?\//.test(specifier)
-    ) {
-      return { url: new URL(specifier, parentURL).href, shortCircuit: true };
+    } else if (parentURL?.startsWith(__UNPKG_BASE_URL__)) {
+      if (/^\.?\.?\//.test(specifier)) {
+        return { url: new URL(specifier, parentURL).href, shortCircuit: true };
+      } else {
+        // Bypass the safeguard in Node.js core.
+        delete context.parentURL;
+      }
     }
 
     return next(specifier, context);
