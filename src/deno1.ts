@@ -13,7 +13,7 @@ export default async function deno1(file: string): Promise<void> {
     return tag.slice(1);
   })();
 
-  const denoInstall = join(tmpdir(), "deno");
+  const denoInstall = join(process.env.RUNNER_TEMP, "deno");
   await mkdir(denoInstall, { recursive: true });
   const installSh = join(denoInstall, "install.sh");
   {
