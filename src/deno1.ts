@@ -3,6 +3,7 @@ import { delimiter, join } from "node:path";
 import { pipeline } from "node:stream/promises";
 import { createWriteStream } from "node:fs";
 import { $ } from "execa";
+import { mkdir } from "node:fs/promises";
 
 export default async function deno1(file: string): Promise<void> {
   const version = await (async () => {
@@ -13,6 +14,7 @@ export default async function deno1(file: string): Promise<void> {
   })();
 
   const denoInstall = join(tmpdir(), "deno");
+  await mkdir(denoInstall, { recursive: true });
   const installSh = join(denoInstall, "install.sh");
   {
     const response = await fetch("https://deno.land/install.sh");
