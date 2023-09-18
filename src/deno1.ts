@@ -1,11 +1,15 @@
 import { tmpdir } from "node:os";
-import { delimiter, join } from "node:path";
+import { delimiter, dirname, join } from "node:path";
 import { pipeline } from "node:stream/promises";
 import { createWriteStream } from "node:fs";
 import { $ } from "execa";
 import { mkdir } from "node:fs/promises";
 
-export default async function deno1(file: string): Promise<void> {
+export default async function deno1(
+  actionPath: string,
+  action: any,
+  file: string
+): Promise<void> {
   const version = await (async () => {
     const response = await fetch("https://deno.com/versions.json");
     const json = (await response.json()) as { cli: string[] };
@@ -29,5 +33,5 @@ export default async function deno1(file: string): Promise<void> {
 
   const $$ = $({ stdio: "inherit" });
 
-  await $$`deno run -Aq ${file}`;
+  await $$`deno run -Aq ${join(dirname(actionPath), file)}`;
 }

@@ -28,4 +28,4 @@ const runtimes = {
 };
 
 const { default: runtime } = await runtimes[$runs.using]();
-await runtime($runs[stage]);
+await runtime(actionPath, action, $runs[stage]);
