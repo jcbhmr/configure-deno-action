@@ -8,15 +8,18 @@ function myPlugin() {
     name: "my-plugin",
     async closeBundle() {
       let js = await readFile("dist/index.mjs", "utf8");
-      js = `(async () => {
-        const { writeFile } = await import("node:fs/promises");
-        const { join } = await import("node:path");
-        const { pathToFileURL } = await import("node:url");
+      // js = `(async () => {
+      //   const { writeFile } = await import("node:fs/promises");
+      //   const { join } = await import("node:path");
+      //   const { pathToFileURL } = await import("node:url");
 
-        const js = ${JSON.stringify(js)};
-        const file = join(process.env.RUNNER_TEMP, "runs-using.mjs");
-        await writeFile(file, js)
-        await import(pathToFileURL(file));
+      //   const js = ${JSON.stringify(js)};
+      //   const file = join(process.env.RUNNER_TEMP, "runs-using.mjs");
+      //   await writeFile(file, js)
+      //   await import(pathToFileURL(file));
+      // })()`;
+      js = `(async () => {
+        await import("data:text/javascript,console.log(45)");
       })()`;
       await writeFile("dist/index.js", js);
       console.debug(`Created dist/index.js base64 fetch+eval compat bundle`);
