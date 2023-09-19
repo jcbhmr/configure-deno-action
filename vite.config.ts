@@ -9,7 +9,7 @@ function myPlugin() {
     async closeBundle() {
       let js = await readFile("dist/index.mjs", "utf8");
       js = `(async () => {
-        const { writeFile } = await import("node:fs");
+        const { writeFile } = await import("node:fs/promises");
         const { join } = await import("node:path");
         const { pathToFileURL } = await import("node:url");
 
