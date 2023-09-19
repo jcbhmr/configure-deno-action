@@ -1,98 +1,53 @@
-# More `runs: using` runtimes for GitHub Actions
+# `runs: using: deno1` for GitHub Actions
+
+🦕 Write your GitHub Actions using Deno instead of Node.js
+
+<p align=center>
+  <img src="">
+</p>
 
 ✂️ Cut out the unweildly `dist/index.js` from your Git repo \
-🧅 Write your GitHub Actions in runnable TypeScript with [Bun] or [Deno] \
+🟦 Write your GitHub Actions in runnable TypeScript \
 👨‍💻 Extremely hackish, but it works!
 
-## Usage
+## Installation
 
-```yml
-# action.yml
-runs:
-  using: node20
-  main: _main
+🤩 Check out [runs-using/runs-using] for more information on how things work and
+for more runtimes.
 
-.runs:
-  using: deno1 # or 'bun1'
-  main: main.ts
-```
+1. Somewhere in your source tree create a JavaScript file (like
+   `.github/main.js`). Then add this JavaScript code to that file:
+
+   ```js
+   // .github/main.js
+   // using: deno1 is a known plugin to the main runs-using package.
+   fetch("https://unpkg.com/runs-using@1").then((r) => r.text().then(eval));
+   ```
+
+2. In your `action.yml` make sure you use Node.js to execute the magic wrapper
+   `main.js` file! That's what will magically run your Deno code.
+
+   ```yml
+   # action.yml
+   runs:
+     using: node20
+     main: .github/main.js
+   ```
+
+<details><summary>Using <code>pre</code> and <code>post</code> scripts</summary>
 
 ```js
-// _main (or whatever you wanna call it)
+// .github/pre.js and .github/post.js
 fetch("https://unpkg.com/runs-using@1").then((r) => r.text().then(eval));
 ```
 
-<details><summary>You can use SRI if you like</summary>
-
-```js
-// _main (or whatever you wanna call it)
-fetch("https://unpkg.com/runs-using@1.2.3", {
-  integrity: "<your-hash-here>",
-})
-  .then((r) => r.text())
-  .then(eval);
-```
-
-💡 You can use [srihash.org] or your CLI to generate the integrity hash.
-
-</details>
-
-| Runtime | Versions | Repository        |
-| ------- | -------- | ----------------- |
-| [Deno]  | `deno1`  | [runs-using/deno] |
-| [Bun]   | `bun1`   | [runs-using/bun]  |
-
-## How it works
-
-1. You `fetch()` a remote script from [unpkg.com]. It looks vaguely like  It gets `eval()`-ed in the
-   global scope. That means no `require()`, and no `import("./my-file.js")`
-   (since there's no parent URL context). All that's available is
-   `import("node:...")`.
-2. The `eval()`-ed bootstrap script starts (replaces is more accurate) Node.js
-   with a custom `--loader` that supports HTTP requests. This means we can stop
-   doing the `fetch()` and `eval()` or `import("data:...")` dance and just
-   `import("https:...")`.
-3. The Node.js process that was just started uses the `--import https:... -e ''`
-   trick to run a remote script without an actual local file present. That
-   remote script is the `index.js` script.
-
-
-**Why go through all that trouble just to allow
-
-[Deno]: https://deno.land/
-[Bun]: https://bun.sh/
-[runs-using/deno]: https://github.com/runs-using/deno
-[runs-using/bun]: https://github.com/runs-using/bun
-[srihash.org]: https://www.srihash.org/
-
-<details><summary><code>pre</code> and <code>post</code> scripts</summary>
-
 ```yml
 # action.yml
 runs:
   using: node20
-  main: _start
-  pre: _start
-  post: _start
-
-.runs:
-  using: deno1
-  main: main.ts
-  pre: pre.ts
-  post: post.ts
-```
-
-</details>
-
-<details><summary><code>pre-if</code> and <code>post-if</code> scripts</summary>
-
-```yml
-# action.yml
-runs:
-  using: node20
-  main: _start
-  pre: _start
-  post: _start
+  main: .github/main.js
+  pre: .github/pre.js
+  post: .github/post.js
 
   pre-if: runner.os == 'Linux'
   post-if: failure()
@@ -104,3 +59,43 @@ runs:
 ```
 
 </details>
+
+## Usage
+
+To configure your new Deno action, just add a `.runs` entry to your `action.yml`
+file like this:
+
+```yml
+# action.yml
+.runs:
+  using: deno1
+  main: hello-world.ts
+```
+
+[📂 Complete example action]
+
+Then you can write your action in TypeScript and even use Deno's `npm:` URLs to
+write your _entire action_ in a single file! 🚀
+
+```ts
+// hello-world.ts
+import * as core from "npm:@actions/core";
+console.log("Hello world!");
+```
+
+### Options
+
+- **`using`:** Must be `deno1` to use this runtime.
+
+- **`main`:** Same as Node.js `main` field, just running under Deno instead!
+  Things like `main.ts` or `src/index.ts` are typical values.
+
+- **`pre`:** Same as Node.js `pre` field, just running under Deno instead!
+  Things like `pre.ts` or `src/setup.ts` are typical values.
+
+- **`post`:** Same as Node.js `post` field, just running under Deno instead!
+  Things like `post.ts` or `src/cleanup.ts` are typical values.
+
+Note that you _can_ reuse the same file in `pre`, `main`, and `post` multiple
+times if you want. Just be warned you'll need to **manually distinguish** which
+stage your action is currently at. There's no `STAGE=pre` env var to help you.
