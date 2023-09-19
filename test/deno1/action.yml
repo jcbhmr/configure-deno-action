@@ -1,6 +1,6 @@
 runs:
   using: node20
-  main: _main.cjs
+  main: _main.js
 
 $runs:
   using: deno1
