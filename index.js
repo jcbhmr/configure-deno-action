@@ -41,6 +41,6 @@ const knownRuntimes = {
 const runtimes = { ...knownRuntimes, ...globalThis.runtimes };
 
 const file = join(process.env.RUNNER_TEMP, Math.random().toString() + ".mjs");
-await downloadTo(runtimes[action.uses], file);
+await downloadTo(runtimes[action.$runs.using], file);
 const { default: run } = await import(file);
 await run(path, stage);

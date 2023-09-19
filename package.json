@@ -1,6 +1,6 @@
 {
   "name": "runs-using",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "type": "commonjs",
   "dependencies": {
     "find-up": "^6.3.0",
