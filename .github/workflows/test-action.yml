@@ -51,3 +51,19 @@ jobs:
         run: nohup npx serve -p 8378 & sleep 5
       - id: test
         uses: ./test/bun1
+  python3:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run build
+        env:
+          UNPKG_BASE_URL: http://localhost:8378/
+      - shell: bash
+        run: nohup npx serve -p 8378 & sleep 5
+      - id: test
+        uses: ./test/python3

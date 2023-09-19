@@ -7,6 +7,7 @@ import * as YAML from "yaml";
 const runtimes = {
   deno1: () => import("./deno1.js"),
   bun1: () => import("./bun1.js"),
+  python3: () => import("./python3.js"),
 };
 const require = createRequire("/");
 const entry = require.resolve(process.argv[1]);
