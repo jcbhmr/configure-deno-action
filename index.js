@@ -2,6 +2,7 @@ import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { createWriteStream } from "node:fs"
 import { readFile } from "node:fs/promises";
+import { pipeline } from "node:stream/promises";
 import { findUp } from "find-up";
 import * as YAML from "yaml";
 
