@@ -1,3 +1,0 @@
-fetch("http://localhost:8378/dist/_bootstrap.js")
-  .then((r) => r.text())
-  .then(eval);

@@ -1,7 +1,7 @@
 runs:
   using: node20
-  main: _main
+  main: _main.js
 
-.runs:
+$runs:
   using: deno1
   main: main.ts
