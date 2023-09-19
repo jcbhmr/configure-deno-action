@@ -1,5 +1,7 @@
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
+import { createWriteStream } from "node:fs"
+import { readFile } from "node:fs/promises";
 import { findUp } from "find-up";
 import * as YAML from "yaml";
 
@@ -14,6 +16,12 @@ Error.prepareStackTrace = function f(error, stack) {
   );
   return error.stack;
 };
+
+async function downloadTo(url, path) {
+  const response = await fetch(url);
+  console.assert(response.ok, `${response.url} ${response.status}`);
+  await pipeline(response.body, createWriteStream(path));
+}
 
 const require = createRequire("/");
 const main = require.resolve(process.argv[1]);
@@ -31,9 +39,7 @@ const knownRuntimes = {
 };
 const runtimes = { ...knownRuntimes, ...globalThis.runtimes };
 
-const response = await fetch(runtimes[action.uses]);
-console.assert(response.ok, `${response.url} ${response.status}`);
-const buffer = await response.arrayBuffer();
-const base64 = Buffer.from(buffer).toString("base64");
-const { default: run } = await import(`data:text/javascript;base64,${base64}`);
+const file = join(process.env.RUNNER_TEMP, Math.random().toString() + ".mjs");
+await downloadTo(runtimes[action.uses], file);
+const { default: run } = await import(file);
 await run(path, stage);
