@@ -9,8 +9,10 @@ export default async function bun1(action: File, file: string) {
   const version = await (async () => {
     const response = await fetch("https://ungh.cc/repos/oven-sh/bun/releases");
     assert(response.ok, `${response.url} ${response.status}`);
-    const json = (await response.json()) as { tag_name: string }[];
-    const tag = json
+    const json = (await response.json()) as {
+      releases: { tag_name: string }[];
+    };
+    const tag = json.releases
       .map((x) => x.tag_name)
       .find((x) => x.startsWith("bun-v1."));
     return tag.slice(5);
