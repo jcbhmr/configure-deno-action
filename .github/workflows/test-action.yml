@@ -27,6 +27,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - run: npm install -g serve
       - run: npm ci
       - run: npm run build
       - shell: bash
