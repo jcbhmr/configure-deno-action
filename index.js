@@ -7,18 +7,6 @@ import { pathToFileURL } from "node:url";
 import { findUp } from "find-up";
 import * as YAML from "yaml";
 
-const ErrorPrepareStackTrace = Error.prepareStackTrace;
-Error.prepareStackTrace = function f(error, stack) {
-  Error.prepareStackTrace = ErrorPrepareStackTrace;
-  error.stack = error.stack;
-  Error.prepareStackTrace = f;
-  error.stack = error.stack.replaceAll(
-    /data:\S{70,}/g,
-    (match) => match.slice(0, 70) + "..."
-  );
-  return error.stack;
-};
-
 async function downloadTo(url, path) {
   const response = await fetch(url);
   console.assert(response.ok, `${response.url} ${response.status}`);
