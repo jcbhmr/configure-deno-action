@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { createWriteStream } from "node:fs"
 import { readFile } from "node:fs/promises";
 import { pipeline } from "node:stream/promises";
+import { pathToFileURL } from "node:url";
 import { findUp } from "find-up";
 import * as YAML from "yaml";
 
@@ -42,5 +43,5 @@ const runtimes = { ...knownRuntimes, ...globalThis.runtimes };
 
 const file = join(process.env.RUNNER_TEMP, Math.random().toString() + ".mjs");
 await downloadTo(runtimes[action.$runs.using], file);
-const { default: run } = await import(file);
+const { default: run } = await import(pathToFileURL(file));
 await run(path, stage);
