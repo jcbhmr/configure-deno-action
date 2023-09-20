@@ -19,9 +19,9 @@ for more runtimes.
    `.github/main.js`). Then add this JavaScript code to that file:
 
    ```js
-   // .github/main.js
+   // .github/main.mjs
    // using: deno1 is a known plugin to the main runs-using package.
-   fetch("https://unpkg.com/runs-using@1").then((r) => r.text().then(eval));
+   eval(await fetch("https://unpkg.com/runs-using@1").then((r) => r.text()));
    ```
 
 2. In your `action.yml` make sure you use Node.js to execute the magic wrapper
@@ -37,8 +37,8 @@ for more runtimes.
 <details><summary>Using <code>pre</code> and <code>post</code> scripts</summary>
 
 ```js
-// .github/pre.js and .github/post.js
-fetch("https://unpkg.com/runs-using@1").then((r) => r.text().then(eval));
+// .github/pre.mjs and .github/post.mjs
+eval(await fetch("https://unpkg.com/runs-using@1").then((r) => r.text()));
 ```
 
 ```yml
