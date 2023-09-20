@@ -26,6 +26,7 @@ const stage = ["pre", "main", "post"].find(
 
 const knownRuntimes = {
   deno1: "https://unpkg.com/@runs-using/deno1@0.2.0",
+  go1: "https://unpkg.com/@runs-using/go1@0.2.0",
 };
 const runtimes = { ...knownRuntimes, ...globalThis.runtimes };
 
