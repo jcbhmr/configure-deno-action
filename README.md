@@ -45,9 +45,9 @@ eval(await fetch("https://unpkg.com/runs-using@1").then((r) => r.text()));
 # action.yml
 runs:
   using: node20
-  main: .github/main.js
-  pre: .github/pre.js
-  post: .github/post.js
+  main: .github/main.mjs
+  pre: .github/pre.mjs
+  post: .github/post.mjs
 
   pre-if: runner.os == 'Linux'
   post-if: failure()
