@@ -1,7 +1,16 @@
 diff --git a/node_modules/@actions/tool-cache/lib/tool-cache.js b/node_modules/@actions/tool-cache/lib/tool-cache.js
-index bbe82f8..9b88c1b 100644
+index bbe82f8..abeb8df 100644
 --- a/node_modules/@actions/tool-cache/lib/tool-cache.js
 +++ b/node_modules/@actions/tool-cache/lib/tool-cache.js
+@@ -352,7 +352,7 @@ function extractZipWin(file, dest) {
+                 pwshCommand
+             ];
+             core.debug(`Using pwsh at path: ${pwshPath}`);
+-            yield exec_1.exec(`"${pwshPath}"`, args);
++            yield exec_1.exec(`"${pwshPath}"`, args, { silent: true });
+         }
+         else {
+             const powershellCommand = [
 @@ -373,7 +373,7 @@ function extractZipWin(file, dest) {
              ];
              const powershellPath = yield io.which('powershell', true);
