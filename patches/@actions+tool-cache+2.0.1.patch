@@ -1,0 +1,22 @@
+diff --git a/node_modules/@actions/tool-cache/lib/tool-cache.js b/node_modules/@actions/tool-cache/lib/tool-cache.js
+index bbe82f8..9b88c1b 100644
+--- a/node_modules/@actions/tool-cache/lib/tool-cache.js
++++ b/node_modules/@actions/tool-cache/lib/tool-cache.js
+@@ -373,7 +373,7 @@ function extractZipWin(file, dest) {
+             ];
+             const powershellPath = yield io.which('powershell', true);
+             core.debug(`Using powershell at path: ${powershellPath}`);
+-            yield exec_1.exec(`"${powershellPath}"`, args);
++            yield exec_1.exec(`"${powershellPath}"`, args, { silent: true });
+         }
+     });
+ }
+@@ -385,7 +385,7 @@ function extractZipNix(file, dest) {
+             args.unshift('-q');
+         }
+         args.unshift('-o'); //overwrite with -o, otherwise a prompt is shown which freezes the run
+-        yield exec_1.exec(`"${unzipPath}"`, args, { cwd: dest });
++        yield exec_1.exec(`"${unzipPath}"`, args, { cwd: dest, silent: true });
+     });
+ }
+ /**

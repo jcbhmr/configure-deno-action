@@ -3,19 +3,21 @@
   "version": "0.2.1",
   "type": "module",
   "dependencies": {
-    "@actions/tool-cache": "^2.0.1",
-    "yaml": "^2.3.2"
+    "patch-package": "^8.0.0"
   },
   "main": "dist/index.js",
   "scripts": {
     "build": "vite build",
-    "format": "prettier -w ."
+    "format": "prettier -w .",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "execa": "^8.0.1",
     "npm-run-all2": "^6.1.0",
     "prettier": "^3.0.3",
-    "vite": "^4.4.9"
+    "vite": "^4.4.9",
+    "@actions/tool-cache": "^2.0.1",
+    "yaml": "^2.3.2"
   },
   "files": [
     "dist"
