@@ -11,10 +11,7 @@ if (!existsSync(actionPath)) {
 }
 const action = YAML.parse(await readFile(actionPath, "utf8"));
 
-const runtime = action.rusing.using;
-const stage = process.argv[1].match(/_(main|pre|post)/)[1];
-
-if (runtime === "deno1") {
+if (action["runs-using-deno"].using === "deno1") {
   const version = "1.37.1";
 
   let denoPath = tc.find("deno", version);
@@ -32,14 +29,17 @@ if (runtime === "deno1") {
     const extractedPath = await tc.extractZip(zipPath);
     denoPath = await tc.cacheDir(extractedPath, "deno", version);
   }
-
   const deno = join(denoPath, "deno");
 
-  const file = join(dirname(actionPath), action.rusing[stage]);
+  const stage = process.argv[1].match(/_(main|pre|post)/)[1];
+  const file = join(dirname(actionPath), action["runs-using-deno"][stage]);
+  const importMap =
+    action["runs-using-deno"]["import-map"] &&
+    join(dirname(actionPath), action["runs-using-deno"]["import-map"]);
   const { exitCode } = await $({
     stdio: "inherit",
     reject: false,
-  })`${deno} run -A ${file}`;
+  })`${deno} run ${importMap ? ["--import-map", importMap] : []} -A ${file}`;
   process.exitCode = exitCode;
 } else {
   throw new DOMException(`${runtime} is not supported`, "NotSupportedError");

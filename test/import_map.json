@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "resolve-me-please": "https://examples.deno.land/hello-world.ts"
+  }
+}

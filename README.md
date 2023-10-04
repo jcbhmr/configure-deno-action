@@ -14,6 +14,16 @@
 wget https://unpkg.com/rusing-deno@1 -O _main.mjs
 ```
 
+<details><summary>Or <code>import()</code> it from unpkg</summary>
+
+```js
+// _main.mjs
+const response = await fetch("https://unpkg.com/rusing-deno@1");
+await import(URL.createObjectURL(await response.blob()));
+```
+
+</details>
+
 ```yml
 # action.yml
 runs:
