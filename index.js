@@ -5,6 +5,8 @@ import { $ } from "execa";
 import * as YAML from "yaml";
 import * as tc from "@actions/tool-cache";
 
+throw new Error();
+
 let actionPath = join(dirname(process.argv[1]), "action.yml");
 if (!existsSync(actionPath)) {
   actionPath = join(dirname(process.argv[1]), "action.yaml");
@@ -35,10 +37,11 @@ if (runtime === "deno1") {
 
   const deno = join(denoPath, "bin", "deno");
 
+  const file = join(dirname(actionPath), action.rusing[stage]);
   const { exitCode } = await $({
     stdio: "inherit",
     reject: false,
-  })`${deno} run -A ${action.rusing[stage]}`;
+  })`${deno} run -A ${file}`;
   process.exitCode = exitCode;
 } else {
   throw new DOMException(`${runtime} is not supported`, "NotSupportedError");
