@@ -24,28 +24,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+    defaults:
+      shell:
+        run: bash
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - run: npm install -g serve
       - run: npm ci
       - run: npm run build
-      - shell: bash
-        run: nohup serve -p 8378 & sleep 5
-      - id: test
-        uses: ./test/deno1
-  go1:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - run: npm install -g serve
-      - run: npm ci
-      - run: npm run build
-      - shell: bash
-        run: nohup serve -p 8378 & sleep 5
-      - id: test
-        uses: ./test/go1
+      - uses: ./test

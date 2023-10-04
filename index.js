@@ -1,36 +1,49 @@
-import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
-import { createWriteStream } from "node:fs"
+import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
-import { pipeline } from "node:stream/promises";
-import { pathToFileURL } from "node:url";
-import { findUp } from "find-up";
+import { $ } from "execa";
 import * as YAML from "yaml";
+import * as tc from "@actions/tool-cache";
 
-async function downloadTo(url, path) {
-  const response = await fetch(url);
-  console.assert(response.ok, `${response.url} ${response.status}`);
-  await pipeline(response.body, createWriteStream(path));
+let actionPath = join(dirname(process.argv[1]), "action.yml");
+if (!existsSync(actionPath)) {
+  actionPath = join(dirname(process.argv[1]), "action.yaml");
 }
+const action = YAML.parse(await readFile(actionPath, "utf8"));
 
-const require = createRequire("/");
-const main = require.resolve(process.argv[1]);
-const path = await findUp(["action.yml", "action.yaml"], { cwd: main });
-const action = YAML.parse(await readFile(path, "utf8"));
+const runtime = action.rusing.using;
+const stage = process.argv[1].match(/_(main|pre|post)/)[1];
 
-const stage = ["pre", "main", "post"].find(
-  (x) =>
-    action.runs[x] &&
-    require.resolve(join(dirname(path), action.runs[x])) === main
-);
+if (runtime === "deno1") {
+  const version = "1.37.1";
 
-const knownRuntimes = {
-  deno1: "https://unpkg.com/@runs-using/deno1@0.2.0",
-  go1: "https://unpkg.com/@runs-using/go1@0.2.0",
-};
-const runtimes = { ...knownRuntimes, ...globalThis.runtimes };
+  let denoPath = tc.find("deno", version);
+  if (!denoPath) {
+    const targetPartA = {
+      x64: "x86_64",
+      arm64: "aarch64",
+    }[process.arch];
+    const targetPartB = {
+      win32: "pc-windows-msvc",
+      darwin: "apple-darwin",
+      linux: "unknown-linux-gnu",
+    }[process.platform];
+    const target = `${targetPartA}-${targetPartB}`;
 
-const file = join(process.env.RUNNER_TEMP, Math.random().toString() + ".mjs");
-await downloadTo(runtimes[action.$runs.using], file);
-const { default: run } = await import(pathToFileURL(file));
-await run(path, stage);
+    const zipPath = await tc.downloadTool(
+      `https://github.com/denoland/deno/releases/download/${version}/deno-${target}.zip`
+    );
+    const extractedPath = await tc.extractZip(zipPath);
+    denoPath = await tc.cacheDir(extractedPath, "deno", version);
+  }
+
+  const deno = join(denoPath, "bin", "deno");
+
+  const { exitCode } = await $({
+    stdio: "inherit",
+    reject: false,
+  })`${deno} run -A ${action.rusing[stage]}`;
+  process.exitCode = exitCode;
+} else {
+  throw new DOMException(`${runtime} is not supported`, "NotSupportedError");
+}

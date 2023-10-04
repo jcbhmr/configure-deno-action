@@ -2,6 +2,6 @@ runs:
   using: node20
   main: _main.mjs
 
-$runs:
+rusing:
   using: deno1
   main: main.ts
