@@ -19,19 +19,15 @@ if (runtime === "deno1") {
 
   let denoPath = tc.find("deno", version);
   if (!denoPath) {
-    const targetPartA = {
-      x64: "x86_64",
-      arm64: "aarch64",
-    }[process.arch];
-    const targetPartB = {
-      win32: "pc-windows-msvc",
-      darwin: "apple-darwin",
-      linux: "unknown-linux-gnu",
-    }[process.platform];
-    const target = `${targetPartA}-${targetPartB}`;
-
+    const tag = `v${version}`;
+    const file = {
+      "darwin,arm64": "deno-aarch64-apple-darwin.zip",
+      "darwin,x64": "deno-x86_64-apple-darwin.zip",
+      "win32,x64": "deno-x86_64-pc-windows-msvc.zip",
+      "linux,x64": "deno-x86_64-unknown-linux-gnu.zip",
+    }[[process.platform, process.arch]];
     const zipPath = await tc.downloadTool(
-      `https://github.com/denoland/deno/releases/download/${version}/deno-${target}.zip`
+      `https://github.com/denoland/deno/releases/download/${tag}/${file}`
     );
     const extractedPath = await tc.extractZip(zipPath);
     denoPath = await tc.cacheDir(extractedPath, "deno", version);
