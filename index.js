@@ -33,7 +33,7 @@ if (runtime === "deno1") {
     denoPath = await tc.cacheDir(extractedPath, "deno", version);
   }
 
-  const deno = join(denoPath, "bin", "deno");
+  const deno = join(denoPath, "deno");
 
   const file = join(dirname(actionPath), action.rusing[stage]);
   const { exitCode } = await $({
