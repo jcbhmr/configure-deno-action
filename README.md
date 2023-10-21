@@ -22,22 +22,12 @@ console.log("isOdd(2)", isOdd(2));
 
 ## Installation
 
-```sh
-wget https://unpkg.com/runs-using-deno@1 -O _main.mjs
-# cp _main.mjs _pre.mjs
-# cp _main.mjs _post.mjs
-```
-
-<details><summary>Or <code>import()</code> it from unpkg</summary>
-
 ```js
 // _main.mjs
 const response = await fetch("https://unpkg.com/runs-using-deno@1");
 const buffer = Buffer.from(await response.arrayBuffer());
 await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
 ```
-
-</details>
 
 ## Usage
 
