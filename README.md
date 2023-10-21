@@ -22,7 +22,8 @@ console.log("isOdd(2)", isOdd(2));
 
 ## Installation
 
-Create a `_main.js` (or some other file with `main` in it) and add this JavaScript code to it:
+Create a `_main.js` (or some other file with `main` in it) and add this
+JavaScript code to it:
 
 ```js
 // _main.mjs
@@ -51,11 +52,15 @@ runs-using-deno:
   main: main.ts
 ```
 
-💡 Deno will auto-detect a `deno.json` [Deno configuration file] if it's near your `main.ts` Deno script. You can use this to provide an import map inside the `deno.json` to make importing libraries more ergonomic.
+💡 Deno will auto-detect a `deno.json` [Deno configuration file] if it's near
+your `main.ts` Deno script. You can use this to provide an import map inside the
+`deno.json` to make importing libraries more ergonomic.
 
 ### `pre-if` and `post-if`
 
-To get the native `pre-if` and `post-if` behaviour, you **must** specify these keys on the native `runs` YAML map instead of the custom `runs-using-deno` YAML map.
+To get the native `pre-if` and `post-if` behaviour, you **must** specify these
+keys on the native `runs` YAML map instead of the custom `runs-using-deno` YAML
+map.
 
 ```yml
 # action.yml
@@ -80,4 +85,5 @@ runs-using-deno:
 
 [![](https://developer.stackblitz.com/img/open_in_codeflow.svg)](https://pr.new/https://github.com/jcbhmr/runs-using-deno)
 
-[deno configuration file]: https://docs.deno.com/runtime/manual/getting_started/configuration_file
+[deno configuration file]:
+  https://docs.deno.com/runtime/manual/getting_started/configuration_file
