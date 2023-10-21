@@ -11,30 +11,38 @@
 ## Installation
 
 ```sh
-wget https://unpkg.com/rusing-deno@1 -O _main.mjs
+wget https://unpkg.com/runs-using-deno@1 -O _main.mjs
+# cp _main.mjs _pre.mjs
+# cp _main.mjs _post.mjs
 ```
 
 <details><summary>Or <code>import()</code> it from unpkg</summary>
 
 ```js
 // _main.mjs
-const response = await fetch("https://unpkg.com/rusing-deno@1");
-await import(URL.createObjectURL(await response.blob()));
+const response = await fetch("https://unpkg.com/runs-using-deno@1");
+const buffer = Buffer.from(await response.arrayBuffer());
+await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
 ```
 
 </details>
+
+## Usage
 
 ```yml
 # action.yml
 runs:
   using: node20
-  main: _main.js
+  main: _main.mjs
+  pre: _pre.mjs
+  post: _post.mjs
 
-rusing:
+  pre-if: runner.os == 'Linux'
+  post-if: runner.os == 'Windows'
+runs-using-deno:
   using: deno1
+  import-map: import_map.json
   main: main.ts
+  pre: main.ts
+  post: main.ts
 ```
-
-## Usage
-
-TODO

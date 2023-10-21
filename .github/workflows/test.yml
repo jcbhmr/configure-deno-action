@@ -1,4 +1,4 @@
-name: Test action
+name: ./test
 on:
   push:
     branches: "main"
@@ -19,7 +19,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  deno1:
+  test:
     strategy:
       fail-fast: false
       matrix:
