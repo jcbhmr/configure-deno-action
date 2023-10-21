@@ -10,8 +10,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "undici": "data:text/javascript,"
-    }
+      undici: "data:text/javascript,",
+    },
   },
   ssr: {
     noExternal: /^(?!node:)/,
@@ -23,6 +23,6 @@ export default defineConfig({
         content: { file: "LICENSE" },
       },
       thirdParty: { output: "dist/THIRD_PARTY_LICENSE.txt" },
-    })
+    }),
   ],
 });

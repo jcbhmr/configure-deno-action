@@ -51,7 +51,7 @@ runs-using-deno:
   main: main.ts
 ```
 
-💡 Deno will auto-detect a `deno.json` if it's next to your `main.ts` Deno script. You can use this to provide an import map inside the `deno.json` to make importing libraries more ergonomic.
+💡 Deno will auto-detect a `deno.json` [Deno configuration file] if it's near your `main.ts` Deno script. You can use this to provide an import map inside the `deno.json` to make importing libraries more ergonomic.
 
 ### `pre-if` and `post-if`
 
@@ -79,3 +79,5 @@ runs-using-deno:
 ![Vite](https://img.shields.io/static/v1?style=for-the-badge&message=Vite&color=646CFF&logo=Vite&logoColor=FFFFFF&label=)
 
 [![](https://developer.stackblitz.com/img/open_in_codeflow.svg)](https://pr.new/https://github.com/jcbhmr/runs-using-deno)
+
+[deno configuration file]: https://docs.deno.com/runtime/manual/getting_started/configuration_file
