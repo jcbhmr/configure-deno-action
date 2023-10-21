@@ -2,10 +2,22 @@
 
 🦕 Write your GitHub Actions in Deno
 
-<p align=center>
-  <img src="">
-</p>
+<table align=center><td>
 
+```js
+// main.ts
+import "resolve-me-please";
+import isOdd from "npm:is-odd";
+
+console.log(Deno.version.deno);
+console.log("isOdd(2)", isOdd(2));
+```
+
+</table>
+
+🦕 Deno supports `node_modules`-less development \
+🗺️ Supports `--import-map` \
+📥 Designed to be stored in source control \
 👨‍💻 Extremely hackish, but it works!
 
 ## Installation
