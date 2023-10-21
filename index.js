@@ -30,13 +30,7 @@ if (action["runs-using-deno"].using === "deno1") {
   const deno = join(denoPath, "deno");
   const stage = process.argv[1].match(/(main|pre|post)/)[1];
   const file = join(dirname(actionPath), action["runs-using-deno"][stage]);
-  const importMap =
-    action["runs-using-deno"]["import-map"] &&
-    join(dirname(actionPath), action["runs-using-deno"]["import-map"]);
-  const { exitCode } = await $({
-    stdio: "inherit",
-    reject: false,
-  })`${deno} run ${importMap ? ["--import-map", importMap] : []} -A ${file}`;
+  const { exitCode } = await $({ stdio: "inherit", reject: false })`${deno} run -A ${file}`;
   process.exitCode = exitCode;
 } else {
   throw new DOMException(
