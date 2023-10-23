@@ -15,9 +15,9 @@ console.log("isOdd(2)", isOdd(2));
 
 </table>
 
-🦕 Deno supports `node_modules`-less development \
-🗺️ Supports `--import-map` \
-📥 Designed to be stored in source control \
+✍ Lets you write your GitHub Actions using TypeScript \
+🚀 Supports `node_modules`-less development \
+🦕 Uses the Deno runtime for your GitHub Action \
 👨‍💻 Extremely hackish, but it works!
 
 ## Installation
