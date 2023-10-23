@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import license from "rollup-plugin-license";
+import { readFile, writeFile, rm } from "node:fs/promises";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -24,5 +25,16 @@ export default defineConfig({
       },
       thirdParty: { output: "dist/THIRD_PARTY_LICENSE.txt" },
     }),
+    {
+      name: "my-plugin",
+      async closeBundle() {
+        const tpl = await readFile("dist/THIRD_PARTY_LICENSE.txt", "utf8");
+        const blockComment = `/*!\n${tpl.replaceAll("*/", "_/")}\n*/`;
+        let js = await readFile("dist/index.js", "utf8");
+        js = blockComment + "\n\n" + js;
+        await writeFile("dist/index.js", js);
+        await rm("dist/THIRD_PARTY_LICENSE.txt");
+      },
+    },
   ],
 });
