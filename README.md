@@ -92,6 +92,10 @@ the right `runs-using-deno`-defined stage to run from there. Check out the
 
 [![](https://developer.stackblitz.com/img/open_in_codeflow.svg)](https://pr.new/https://github.com/jcbhmr/runs-using-deno)
 
+You can test the action by committing to the `main` branch and checking the
+<kbd>Actions</kbd> tab to see if the `test-action.yml` workflow succeeded. If
+you're opening a PR, the `test-action.yml` workflow will automatically run.
+
 <!-- prettier-ignore-start -->
 [deno configuration file]: https://docs.deno.com/runtime/manual/getting_started/configuration_file
 [`test/` folder]: https://github.com/jcbhmr/runs-using-deno/tree/main/test
