@@ -22,7 +22,7 @@ console.log("isOdd(2)", isOdd(2));
 
 ## Installation
 
-Create a `_main.js` (or some other file with `main` in it) and add this
+Create `_main.mjs` (or some other `.mjs` file with `main` in it) and add this
 JavaScript code to it:
 
 ```js
