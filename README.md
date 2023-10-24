@@ -79,11 +79,20 @@ runs-using-deno:
   post: main.ts
 ```
 
+You'll need to create `_pre.mjs` and `_post.mjs` files as separate entry points.
+All of these should import the same `https://unpkg.com/runs-using-deno@1` module
+which will sniff the `(main|pre|post)` from the entry point file name and choose
+the right `runs-using-deno`-defined stage to run from there. Check out the
+[`test/` folder] for a demo of an action using `_main.mjs`, `_pre.mjs`, and
+`_post.mjs`.
+
 ## Development
 
 ![Vite](https://img.shields.io/static/v1?style=for-the-badge&message=Vite&color=646CFF&logo=Vite&logoColor=FFFFFF&label=)
 
 [![](https://developer.stackblitz.com/img/open_in_codeflow.svg)](https://pr.new/https://github.com/jcbhmr/runs-using-deno)
 
-[deno configuration file]:
-  https://docs.deno.com/runtime/manual/getting_started/configuration_file
+<!-- prettier-ignore-start -->
+[deno configuration file]: https://docs.deno.com/runtime/manual/getting_started/configuration_file
+[`test/` folder]: https://github.com/jcbhmr/runs-using-deno/tree/main/test
+<!-- prettier-ignore-end -->
