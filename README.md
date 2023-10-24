@@ -33,8 +33,6 @@ const buffer = Buffer.from(await response.arrayBuffer());
 await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
 ```
 
-📌 You can pin the `@1.x.x` version if you want
-
 ## Usage
 
 ![Node.js](https://img.shields.io/static/v1?style=for-the-badge&message=Node.js&color=339933&logo=Node.js&logoColor=FFFFFF&label=)
