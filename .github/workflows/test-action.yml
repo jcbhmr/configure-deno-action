@@ -1,4 +1,4 @@
-name: ./test
+name: test/action.yml
 on:
   push:
     branches: "main"
@@ -19,7 +19,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  test:
+  test-action:
     strategy:
       fail-fast: false
       matrix:
