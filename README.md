@@ -1,4 +1,4 @@
-# `using: deno` for GitHub Actions
+# Deno runtime for GitHub Actions
 
 🦕 Write your GitHub Actions in Deno
 
