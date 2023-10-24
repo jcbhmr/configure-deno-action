@@ -10,8 +10,10 @@ if (!existsSync(actionPath)) {
 }
 const action = YAML.parse(await readFile(actionPath, "utf8"));
 if (action["runs-using-deno"].using === "deno1") {
-  const version = "1.37.2"; // UPDATED MANUALLY
-  let denoPath = tc.find("deno", version);
+  const response = await fetch("https://deno.com/versions.json");
+  const json = await response.json();
+  const tag = json.cli.find((x) => x.startsWith("v1."));
+  let denoPath = tc.find("deno", tag.slice(1));
   if (!denoPath) {
     const file = {
       "darwin,arm64": "deno-aarch64-apple-darwin.zip",
@@ -20,10 +22,10 @@ if (action["runs-using-deno"].using === "deno1") {
       "linux,x64": "deno-x86_64-unknown-linux-gnu.zip",
     }[[process.platform, process.arch]];
     const zipPath = await tc.downloadTool(
-      `https://github.com/denoland/deno/releases/download/v${version}/${file}`,
+      `https://github.com/denoland/deno/releases/download/${tag}/${file}`,
     );
     const extractedPath = await tc.extractZip(zipPath);
-    denoPath = await tc.cacheDir(extractedPath, "deno", version);
+    denoPath = await tc.cacheDir(extractedPath, "deno", tag.slice(1));
   }
   const deno = join(denoPath, "deno");
   const stage = process.argv[1].match(/(main|pre|post)/)[1];

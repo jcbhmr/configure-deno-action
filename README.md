@@ -33,6 +33,26 @@ const buffer = Buffer.from(await response.arrayBuffer());
 await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
 ```
 
+<details><summary>📌 You can also pin the script</summary>
+
+```js
+// _main.mjs
+// https://github.com/jcbhmr/runs-using-deno
+const response = await fetch("https://unpkg.com/runs-using-deno@1.2.0");
+const buffer = Buffer.from(await response.arrayBuffer());
+await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
+```
+
+⚠️ This will still dynamically download the latest Deno v1.x release.
+
+</details>
+
+<details><summary>⬇️ You can also vendor the script</summary>
+
+```sh
+wget https://unpkg.com/runs-using-deno@1 -O _main.mjs
+```
+
 ## Usage
 
 ![Node.js](https://img.shields.io/static/v1?style=for-the-badge&message=Node.js&color=339933&logo=Node.js&logoColor=FFFFFF&label=)
