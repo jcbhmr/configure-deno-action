@@ -41,6 +41,8 @@ await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
 wget https://unpkg.com/runs-using-deno -O _main.mjs
 ```
 
+⚠️ The latest version of Deno will still be downloaded dynamically.
+
 </details>
 
 ℹ This tool sniffs the `(main|pre|post)` name from the `process.argv[1]` file
