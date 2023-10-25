@@ -22,6 +22,8 @@ console.log("isOdd(2)", isOdd(2));
 
 ## Installation
 
+![Node.js](https://img.shields.io/static/v1?style=for-the-badge&message=Node.js&color=339933&logo=Node.js&logoColor=FFFFFF&label=)
+
 Create `_main.mjs` (or some other `.mjs` file with `main` in it) and add this
 JavaScript code to it:
 
@@ -102,6 +104,16 @@ the right `runs-using-deno`-defined stage to run from there. Check out the
 [`test/` folder] for a demo of an action using `_main.mjs`, `_pre.mjs`, and
 `_post.mjs`.
 
+## How it works
+
+This is a wrapper Node.js script that downloads, installs, and caches the latest
+Deno version. Then, using the fields from `action.yml`, it executes Deno with
+the `main.ts` script as a subprocess in Node.js! You automagically inherit all
+the environment variables, working directory, GitHub context, and more. It's
+pretty seamless! You can even use the @actions/core and other packages to
+interact as you would in Node.js. To learn more about how the Deno runtime
+works, check out [the Deno manual].
+
 ## Development
 
 ![Vite](https://img.shields.io/static/v1?style=for-the-badge&message=Vite&color=646CFF&logo=Vite&logoColor=FFFFFF&label=)
@@ -114,4 +126,5 @@ tab to see if the `test-action.yml` workflow succeeded.
 <!-- prettier-ignore-start -->
 [deno configuration file]: https://docs.deno.com/runtime/manual/getting_started/configuration_file
 [`test/` folder]: https://github.com/jcbhmr/runs-using-deno/tree/main/test
+[the deno manual]: https://docs.deno.com/runtime/manual
 <!-- prettier-ignore-end -->
