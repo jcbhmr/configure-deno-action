@@ -119,10 +119,10 @@ you would in Node.js. To learn more about how the Deno runtime works, check out
 
 ![Vite](https://img.shields.io/static/v1?style=for-the-badge&message=Vite&color=646CFF&logo=Vite&logoColor=FFFFFF&label=)
 
-[![](https://developer.stackblitz.com/img/open_in_codeflow.svg)](https://pr.new/https://github.com/jcbhmr/runs-using-deno)
-
-You can test the action by committing and then checking the <kbd>Actions</kbd>
-tab to see if the `test-action.yml` workflow succeeded.
+There's not really a good local test loop. The best way to test the code is to
+run the `test/action.yml` in GitHub Actions on each push or Pull Request. To
+test your changes, just push to the `main` branch or open a Pull Request (even a
+Draft one). 👍
 
 <!-- prettier-ignore-start -->
 [deno configuration file]: https://docs.deno.com/runtime/manual/getting_started/configuration_file
