@@ -8,7 +8,6 @@ runs:
   post-if: runner.os == 'Windows'
 runs-using-deno:
   using: deno1
-  import-map: import_map.json
   main: main.ts
   pre: main.ts
   post: main.ts
