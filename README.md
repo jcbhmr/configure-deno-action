@@ -4,13 +4,12 @@
 
 <table align=center><td>
 
-```js
-// main.ts
-import "resolve-me-please";
-import isOdd from "npm:is-odd";
-
-console.log(Deno.version.deno);
-console.log("isOdd(2)", isOdd(2));
+```ts
+import * as core from "npm:@actions/core@^1.10.1";
+import * as github from "npm:@actions/github@^6.0.0";
+console.log("github.context.payload", github.context.payload);
+console.log(`Hello ${core.getInput("name")}!`);
+core.setOutput("time", new Date().toLocaleTimeString());
 ```
 
 </table>
