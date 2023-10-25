@@ -107,11 +107,11 @@ the right `runs-using-deno`-defined stage to run from there. Check out the
 
 This is a wrapper Node.js script that downloads, installs, and caches the latest
 Deno version. Then, using the fields from `action.yml`, it executes Deno with
-the `main.ts` script as a subprocess in Node.js! You automagically inherit all
-the environment variables, working directory, GitHub context, and more. It's
-pretty seamless! You can even use the @actions/core and other packages to
-interact as you would in Node.js. To learn more about how the Deno runtime
-works, check out [the Deno manual].
+the `main: main.ts` script as a subprocess. You automagically inherit all the
+environment variables, working directory, GitHub context, and more. It's pretty
+seamless! You can even use the @actions/core and other packages to interact as
+you would in Node.js. To learn more about how the Deno runtime works, check out
+[the Deno manual].
 
 ## Development
 
