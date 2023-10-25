@@ -4,6 +4,12 @@ runs:
   pre: _pre.mjs
   post: _post.mjs
 
+runs:
+  using: node20
+  main: _main.mjs
+  pre: _pre.mjs
+  post: _post.mjs
+
   pre-if: runner.os == 'Linux'
   post-if: runner.os == 'Windows'
 runs-using-deno:
