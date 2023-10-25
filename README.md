@@ -28,30 +28,26 @@ JavaScript code to it:
 ```js
 // _main.mjs
 // https://github.com/jcbhmr/runs-using-deno
-const response = await fetch("https://unpkg.com/runs-using-deno@1");
-const buffer = Buffer.from(await response.arrayBuffer());
-await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
-```
-
-<details><summary>📌 You can also pin the script</summary>
-
-```js
-// _main.mjs
-// https://github.com/jcbhmr/runs-using-deno
 const response = await fetch("https://unpkg.com/runs-using-deno@1.2.0");
 const buffer = Buffer.from(await response.arrayBuffer());
 await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
 ```
 
-⚠️ This will still dynamically download the latest Deno v1.x release.
+📌 Make sure you keep that pinned version up to date! 😉
+
+<details><summary>⬇️ You can also download and use a local copy</summary>
+
+```sh
+wget https://unpkg.com/runs-using-deno -O _main.mjs
+```
 
 </details>
 
-<details><summary>⬇️ You can also vendor the script</summary>
-
-```sh
-wget https://unpkg.com/runs-using-deno@1 -O _main.mjs
-```
+ℹ This tool sniffs the `(main|pre|post)` name from the `process.argv[1]` file
+(the entry point) so make sure you name your `main: main.mjs` something like
+`_main.mjs` or `.main.mjs`. It's recommended to use the `.mjs` extension so that
+the script is interpreted as ESM even when no Node.js `package.json`
+`type: "module"` is present.
 
 ## Usage
 
@@ -93,8 +89,8 @@ runs:
 runs-using-deno:
   using: deno1
   main: main.ts
-  pre: main.ts
-  post: main.ts
+  pre: pre.ts
+  post: post.ts
 ```
 
 You'll need to create `_pre.mjs` and `_post.mjs` files as separate entry points.
@@ -110,9 +106,8 @@ the right `runs-using-deno`-defined stage to run from there. Check out the
 
 [![](https://developer.stackblitz.com/img/open_in_codeflow.svg)](https://pr.new/https://github.com/jcbhmr/runs-using-deno)
 
-You can test the action by committing to the `main` branch and checking the
-<kbd>Actions</kbd> tab to see if the `test-action.yml` workflow succeeded. If
-you're opening a PR, the `test-action.yml` workflow will automatically run.
+You can test the action by committing and then checking the <kbd>Actions</kbd>
+tab to see if the `test-action.yml` workflow succeeded.
 
 <!-- prettier-ignore-start -->
 [deno configuration file]: https://docs.deno.com/runtime/manual/getting_started/configuration_file
