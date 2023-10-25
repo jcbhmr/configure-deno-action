@@ -73,7 +73,29 @@ runs-using-deno:
 
 💡 Deno will auto-detect a `deno.json` [Deno configuration file] if it's near
 your `main.ts` Deno script. You can use this to provide an import map inside the
-`deno.json` to make importing libraries more ergonomic.
+`deno.json` to make importing the same libraries across multiple files easier.
+
+<table align=center><td>
+
+```jsonc
+// deno.json
+{
+  "imports": {
+    "@actions/core": "npm:@actions/core@^1.10.1",
+    "@actions/github": "npm:@actions/github@^6.0.0"
+  }
+}
+```
+
+<td>
+
+```ts
+// main.ts
+import * as core from "@actions/core";
+import * as github from "@actions/github";
+```
+
+</table>
 
 ### `pre-if` and `post-if`
 
