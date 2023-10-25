@@ -23,6 +23,8 @@ core.setOutput("time", new Date().toLocaleTimeString());
 
 ![Node.js](https://img.shields.io/static/v1?style=for-the-badge&message=Node.js&color=339933&logo=Node.js&logoColor=FFFFFF&label=)
 
+📋 Looking for a premade template? Check out [jcbhmr/hello-world-deno-action]!
+
 Create `_main.mjs` (or some other `.mjs` file with `main` in it) and add this
 JavaScript code to it:
 
@@ -126,4 +128,5 @@ tab to see if the `test-action.yml` workflow succeeded.
 [deno configuration file]: https://docs.deno.com/runtime/manual/getting_started/configuration_file
 [`test/` folder]: https://github.com/jcbhmr/runs-using-deno/tree/main/test
 [the deno manual]: https://docs.deno.com/runtime/manual
+[jcbhmr/hello-world-deno-action]: https://github.com/jcbhmr/hello-world-deno-action
 <!-- prettier-ignore-end -->
