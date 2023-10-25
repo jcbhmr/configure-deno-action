@@ -38,7 +38,7 @@ await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
 
 📌 Make sure you keep that pinned version up to date! 😉
 
-<details><summary>⬇️ You can also download and use a local copy</summary>
+<details><summary>⬇️ You can also download and commit a local copy if you prefer</summary>
 
 ```sh
 wget https://unpkg.com/runs-using-deno -O _main.mjs
