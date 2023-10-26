@@ -1,13 +1,11 @@
-runs:
-  using: node20
-  main: _main.mjs
-  pre: _pre.mjs
-  post: _post.mjs
+$: import("node:fs/promises").then(m=>m.readFile("dist/index.js","utf8")).then(x=>eval(x))/*
+runs: { using: node20, pre: action.yml, main: action.yml, post: action.yml }
 
-  pre-if: runner.os == 'Linux'
-  post-if: runner.os == 'Windows'
-runs-using-deno:
+runs2:
   using: deno1
+  pre-if: os.runner == 'Windows'
+  pre: pre.ts
   main: main.ts
-  pre: main.ts
-  post: main.ts
+  post-if: os.runner == 'Linux'
+  post: post.ts
+#*/
