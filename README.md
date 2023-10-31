@@ -31,12 +31,12 @@ JavaScript code to it:
 ```js
 // _main.mjs
 // https://github.com/jcbhmr/runs-using-deno
-const response = await fetch("https://unpkg.com/runs-using-deno@1.2.2");
+const response = await fetch("https://unpkg.com/runs-using-deno@2");
 const buffer = Buffer.from(await response.arrayBuffer());
 await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
 ```
 
-📌 Make sure you keep that pinned version up to date! 😉
+📌 You can also pin that `@2` to `@2.x.y` if you want. Note that this will **lock** the Deno version to v1.37.2.
 
 <details><summary>⬇️ You can also download and commit a local copy if you prefer</summary>
 
@@ -44,7 +44,7 @@ await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
 wget https://unpkg.com/runs-using-deno -O _main.mjs
 ```
 
-⚠️ The latest version of Deno will still be downloaded dynamically.
+⚠️ This will **lock** the Deno version to v1.37.2.
 
 </details>
 
