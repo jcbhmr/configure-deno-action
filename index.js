@@ -1,13 +1,13 @@
-async function main() {
-    const { register } = await import("node:module")
-    const { pipeline } = await import("node:stream/promises")
-    const { createWriteStream } = await import("node:fs")
-    const { tmpdir } = await import("node:os")
-    const { join } = await import("node:path")
-    const path = join(tmpdir(), Math.random().toString() + ".mjs")
-    const response = await fetch(`https://unpkg.com/${__NAME__}@${__VERSION__}/${__HTTP_LOADER__}`)
-    await pipeline(response.body, createWriteStream(path))
-    register(path)
+import { readFile } from "node:fs/promises";
+import * as YAML from "yaml";
+import { findUp } from "find-up";
 
-}
-main()
+const actionFile = await findUp(["action.yml", "action.yaml"], {
+  cwd: process.argv[2],
+});
+const action = YAML.parse(await readFile(actionFile, "utf8"));
+const runtimes = {
+  deno1: () => import("./deno1.js"),
+};
+const { default: runtime } = await runtimes[action["runs-using-deno"].using]();
+await runtime(action);

@@ -1,0 +1,7 @@
+#! action.yml
+/*: #*/import("node:fs").then(m=>m.readFile("dist/index.js","utf8").then(x=>eval(x)))/*
+runs: { using: node20, main: action.yml }
+runs-using-deno:
+  using: deno1
+  main: main.ts
+#*/

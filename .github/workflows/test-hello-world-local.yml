@@ -1,4 +1,4 @@
-name: test/action.yml
+name: test/hello-world-local
 on:
   push:
     branches: "main"
@@ -7,19 +7,21 @@ on:
       - LICENSE
       - README.md
       - .github/**
-      - "!.github/workflows/test-action.yml"
+      - "!.github/workflows/test-hello-world-local.yml"
+      - test/hello-world-2/**
   pull_request:
     paths-ignore:
       - .gitignore
       - LICENSE
       - README.md
       - .github/**
-      - "!.github/workflows/test-action.yml"
+      - "!.github/workflows/test-hello-world-local.yml"
+      - test/hello-world-2/**
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  test-action:
+  test-hello-world-local:
     strategy:
       fail-fast: false
       matrix:
@@ -32,4 +34,4 @@ jobs:
       - uses: actions/checkout@v4
       - run: npm ci
       - run: npm run build
-      - uses: ./test
+      - uses: ./test/hello-world-local

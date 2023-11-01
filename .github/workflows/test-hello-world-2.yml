@@ -1,0 +1,19 @@
+name: test/hello-world-local
+on:
+  schedule:
+    - cron: "24 */6 * * *"
+jobs:
+  test-hello-world-local:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    defaults:
+      run:
+        shell: bash
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run build
+      - uses: ./test/hello-world-local
