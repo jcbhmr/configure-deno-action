@@ -22,7 +22,7 @@
     "format": "prettier -w ."
   },
   "devDependencies": {
-    "@actions/tool-cache": "^2.0.1",
+    "@types/which": "^3.0.1",
     "execa": "^8.0.1",
     "find-up": "^6.3.0",
     "prettier": "^3.0.3",
@@ -31,12 +31,14 @@
     "yaml": "^2.3.2"
   },
   "bundleDependencies": [
-    "@actions/tool-cache",
     "execa",
     "yaml",
     "find-up"
   ],
   "dependencies": {
-    "glob": "^10.3.10"
-  }
+    "fetch-retry": "^5.0.6",
+    "glob": "^10.3.10",
+    "which": "^4.0.0"
+  },
+  "workspaces": ["packages/*"]
 }

