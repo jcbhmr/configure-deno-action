@@ -1,9 +1,9 @@
-name: test/hello-world-local
+name: test/hello-world-2
 on:
   schedule:
     - cron: "24 */6 * * *"
 jobs:
-  test-hello-world-local:
+  test-hello-world-2:
     strategy:
       fail-fast: false
       matrix:
@@ -14,6 +14,4 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci
-      - run: npm run build
-      - uses: ./test/hello-world-local
+      - uses: ./test/hello-world-2
