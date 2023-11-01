@@ -14,45 +14,61 @@ core.setOutput("time", new Date().toLocaleTimeString());
 
 </table>
 
-✍ Lets you write your GitHub Actions using TypeScript \
-🚀 Supports `node_modules`-less development \
 🦕 Uses the Deno runtime for your GitHub Action \
-👨‍💻 Extremely hackish, but it works!
+✍ Write your GitHub Actions using TypeScript \
+🏃‍♂️ Deno can run `.ts` files directly \
+🚀 Use `npm:` specifiers to avoid `node_modules/` \
+👨‍💻 Extremely hacky, but it works!
 
 ## Installation
 
-![Node.js](https://img.shields.io/static/v1?style=for-the-badge&message=Node.js&color=339933&logo=Node.js&logoColor=FFFFFF&label=)
+![GitHub Actions](https://img.shields.io/static/v1?style=for-the-badge&message=GitHub+Actions&color=2088FF&logo=GitHub+Actions&logoColor=FFFFFF&label=)
 
-📋 Looking for a premade template? Check out [jcbhmr/hello-world-deno-action]!
-
-Create `_main.mjs` (or some other `.mjs` file with `main` in it) and add this
-JavaScript code to it:
-
-```js
-// _main.mjs
-// https://github.com/jcbhmr/runs-using-deno
-const response = await fetch("https://unpkg.com/runs-using-deno@2");
-const buffer = Buffer.from(await response.arrayBuffer());
-await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
+```yml
+#! action.yml
+/*: #*/fetch("https://unpkg.com/runs-using-deno@2").then(r=>r.text().then(x=>eval(x)))/*
+runs:
+  using: node20
+  main: action.yml
+runs-using-deno:
+  using: deno1
+  main: main.ts
+#*/
 ```
 
-📌 You can also pin that `@2` to `@2.x.y` if you want. Note that this will **lock** the Deno version to v1.37.2.
+<details><summary>If you prefer, you may pin the version</summary>
 
-<details><summary>⬇️ You can also download and commit a local copy if you prefer</summary>
-
-```sh
-wget https://unpkg.com/runs-using-deno -O _main.mjs
+```yaml
+#! action.yml
+/*: #*/fetch("https://unpkg.com/runs-using-deno@2.0.0").then(r=>r.text().then(x=>eval(x)))/*
+runs:
+  using: node20
+  main: action.yml
+runs-using-deno:
+  using: deno1
+  main: main.ts
+#*/
 ```
-
-⚠️ This will **lock** the Deno version to v1.37.2.
 
 </details>
 
-ℹ This tool sniffs the `(main|pre|post)` name from the `process.argv[1]` file
-(the entry point) so make sure you name your `main: main.mjs` something like
-`_main.mjs` or `.main.mjs`. It's recommended to use the `.mjs` extension so that
-the script is interpreted as ESM even when no Node.js `package.json`
-`type: "module"` is present.
+<details><summary>If you prefer, you may put this in a separate JavaScript file</summary>
+
+You can put it anywhere in your repository. Good spots are `_index.js`, `.main.js`, `.github/runs-using-deno.js`, `.runs-using-deno.js`.
+
+```js
+fetch("https://unpkg.com/runs-using-deno@2").then(r=>r.text().then(x=>eval(x)))
+```
+
+</details>
+
+📌 You may wish to pin to a specific version like `unpkg.com/runs-using-deno@2.0.0`. Note that each version of runs-using-deno is locked to a specific version of Deno. runs-using-deno v2.0.0 uses Deno v1.37.2.
+
+<details><summary>How the magic YAML & JavaScript works</summary>
+
+The magic trick is that the `action.yml` file is used for two things. First, it's the manifest file for GitHub Actions. Second, it gets run via `node action.yml` and interpreted as a [CommonJS] extensionless JavaScript file. We can (ab)use this to put JavaScript and YAML **in the same file** using the clever `/*:` and `#*/` comment tricks that happen to work in both intepretations.
+
+</details>
 
 ## Usage
 
@@ -72,7 +88,7 @@ runs-using-deno:
 ```
 
 💡 Deno will auto-detect a `deno.json` [Deno configuration file] if it's near
-your `main.ts` Deno script. You can use this to provide an import map inside the
+your `main.ts` Deno script. You can use this to provide an [import map] inside the
 `deno.json` to make importing the same libraries across multiple files easier.
 
 <table align=center><td>
@@ -129,13 +145,9 @@ the right `runs-using-deno`-defined stage to run from there. Check out the
 
 ## How it works
 
-This is a wrapper Node.js script that downloads, installs, and caches the latest
-Deno version. Then, using the fields from `action.yml`, it executes Deno with
-the `main: main.ts` script as a subprocess. You automagically inherit all the
-environment variables, working directory, GitHub context, and more. It's pretty
-seamless! You can even use the @actions/core and other packages to interact as
-you would in Node.js. To learn more about how the Deno runtime works, check out
-[the Deno manual].
+This package includes a Node.js wrapper `main.js`, `pre.js`, and `post.js` script that get executed by the native Node.js GitHub Actions runtime. These scripts need to be different entry points so that we know which step we are on (pre, main, or post). If these can be combined into a single entry point that automagically detects which stage its in, let me know!
+
+Then inside each of those Node.js wrapper scripts is the magic `fetch()` and `eval()` which pulls 
 
 ## Development
 
@@ -145,6 +157,8 @@ There's not really a good local test loop. The best way to test the code is to
 run the `test/action.yml` in GitHub Actions on each push or Pull Request. To
 test your changes, just push to the `main` branch or open a Pull Request (even a
 Draft one). 👍
+
+This npm package **hardcodes** the Deno version that is installed. Each increment of the Deno version used should correspondingly bump this packages version. For instance, Deno v1.30.0 to Deno v1.31.0 incurs a +0.1 version bump to this package. Why do this? This is similar to what the real GitHub Actions runtime does: when there's a release of a new Node.js version it doesn't automatically get rolled out to GitHub Actions users. Instead, the maintainers must **manually** verify that the new version works adequately and release it themselves. This version indirection is emulated in this project.
 
 <!-- prettier-ignore-start -->
 [deno configuration file]: https://docs.deno.com/runtime/manual/getting_started/configuration_file
