@@ -19,7 +19,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  test-hello-world:
+  test-deno:
     strategy:
       fail-fast: false
       matrix:

@@ -1,14 +1,23 @@
-# Deno runtime for GitHub Actions
+# Raw runtime for GitHub Actions
 
 🦕 Write your GitHub Actions in Deno
 
 <table align=center><td>
 
 ```ts
-import * as core from "npm:@actions/core@^1.10.1";
-import * as github from "npm:@actions/github@^6.0.0";
-console.log(Deno.version.deno);
-//=> '1.37.2'
+
+```
+
+<td>
+
+```py
+
+```
+
+<td>
+
+```go
+
 ```
 
 </table>

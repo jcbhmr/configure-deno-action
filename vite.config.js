@@ -23,9 +23,9 @@ export default defineConfig({
     ssr: "index.js",
     rollupOptions: {
       output: {
-        inlineDynamicImports: true
-      }
-    }
+        inlineDynamicImports: true,
+      },
+    },
   },
   resolve: {
     alias: {

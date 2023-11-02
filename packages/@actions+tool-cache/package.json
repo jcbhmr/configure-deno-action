@@ -1,5 +1,0 @@
-{
-    "name": "@actions/tool-cache",
-    "exports": "./index.js",
-    "type": "module"
-}

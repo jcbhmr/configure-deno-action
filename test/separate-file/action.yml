@@ -1,5 +1,0 @@
-runs: { using: node20, main: _main.js }
-runs-using-deno:
-  using: deno1
-  main: main.ts
-#*/
