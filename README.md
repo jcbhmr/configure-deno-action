@@ -21,8 +21,6 @@ core.setOutput("time", new Date().toLocaleTimeString());
 🦕 Runs on the [Deno runtime] \
 👩‍⚖️ [0BSD licensed] template
 
-[💬 Read the blog post]()
-
 ## Usage
 
 ![Deno](https://img.shields.io/static/v1?style=for-the-badge&message=Deno&color=000000&logo=Deno&logoColor=FFFFFF&label=)
