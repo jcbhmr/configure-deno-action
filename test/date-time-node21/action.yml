@@ -1,4 +1,0 @@
-/*: # https://github.com/jcbhmr/runs-using-raw
-runs:
-  using: node20
-  main: _main.mjs

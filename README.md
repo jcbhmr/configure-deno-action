@@ -1,98 +1,59 @@
-# GitHub Actions shebang
+# "Hello world!" GitHub Action using Deno
 
-🦕 Write your GitHub Actions using Deno, Bash, Python, Go, or anything!
+🚀 Demo action using Deno \
+💡 Inspired by [actions/hello-world-javascript-action]
 
 <table align=center><td>
 
 ```ts
-// 2>/dev/null; v=1.38.0; ...; exec ".../bin/deno" run -Aq "$0" "$@"
-console.log("Hello Deno!")
-```
+import * as core from "npm:@actions/core";
+import * as github from "npm:@actions/github";
 
-<td>
-
-```py
-
-```
-
-<td>
-
-```go
-
+console.log("github.context.payload", github.context.payload);
+console.log(`Hello ${core.getInput("name")}!`);
+core.setOutput("time", new Date().toLocaleTimeString());
 ```
 
 </table>
 
-🦕 Uses the Deno runtime for your GitHub Action \
-✍ Write your GitHub Actions using TypeScript \
-🏃‍♂️ Deno can run `.ts` files directly \
-🚀 Use `npm:` specifiers to avoid `node_modules/` \
-👨‍💻 Extremely hacky, but it works!
+🟦 Uses TypeScript \
+😍 No compile step! \
+🦕 Runs on the [Deno runtime] \
+👩‍⚖️ [0BSD licensed] template
 
-## Installation
-
-![Node.js](https://img.shields.io/static/v1?style=for-the-badge&message=Node.js&color=339933&logo=Node.js&logoColor=FFFFFF&label=)
-
-Add the magic `/*: #fetch()...` and `#*/` hacky comments and the native `runs: { main: action.yml }` to your `action.yml` file and you're all set!
-
-```yml
-#! action.yml
-/*: #*/fetch("https://unpkg.com/runs-using-deno@2.0.0").then(r=>r.text().then(x=>eval(x)))/*
-runs: { using: node20, main: action.yml }
-runs-using-deno:
-  using: deno1
-  main: main.ts
-#*/
-```
-
-📌 Each version of runs-using-deno uses a pinned version of Deno. v2.0.0 uses Deno v1.37.2. Try to keep that `@x.y.z` version up to date!
-
-<details><summary>If you prefer, you can use a version range</summary>
-
-```yaml
-#! action.yml
-/*: #*/fetch("https://unpkg.com/runs-using-deno@2").then(r=>r.text().then(x=>eval(x)))/*
-runs: { using: node20, main: action.yml }
-runs-using-deno:
-  using: deno1
-  main: main.ts
-#*/
-```
-
-</details>
-
-<details><summary>Also works in a separate JavaScript file</summary>
-
-You can put it anywhere in your repository. Good spots are `_index.js`, `.main.js`, `.github/runs-using-deno.js`, or `.runs-using-deno.js`.
-
-```js
-fetch("https://unpkg.com/runs-using-deno@2")
-  .then((r) => r.text())
-  .then((x) => eval(x));
-```
-
-</details>
+[💬 Read the blog post]()
 
 ## Usage
 
 ![Deno](https://img.shields.io/static/v1?style=for-the-badge&message=Deno&color=000000&logo=Deno&logoColor=FFFFFF&label=)
 ![GitHub Actions](https://img.shields.io/static/v1?style=for-the-badge&message=GitHub+Actions&color=2088FF&logo=GitHub+Actions&logoColor=FFFFFF&label=)
 
-To use this wrapper, add the following to your `action.yml`:
+<img align=right src="https://github.com/jcbhmr/hello-world-deno-action/assets/61068799/42566bcc-4466-4601-9aee-c78484589b44">
 
-```yml
-#! action.yml
-/*: #*/fetch("https://unpkg.com/runs-using-deno@2.0.0").then(r=>r.text().then(x=>eval(x)))/*
-runs: { using: node20, main: action.yml }
-runs-using-deno:
-  using: deno1
-  main: main.ts
-#*/
-```
+This is a **template repository** that is meant to be used as a base or example
+for your own project. To get started, just click the <kbd>Use this
+template</kbd> button in the top left of this repository page and edit the
+`main.ts` file to customize your new Deno-based GitHub Action. There's no
+`node_modules/`, no `dist/`, and no compile step. How's that for ease-of-use! 😉
 
-💡 Deno will auto-detect a `deno.json` [Deno configuration file] if it's near
-your `main.ts` Deno script. You can use this to provide an [import map] inside the
-`deno.json` to make importing the same libraries across multiple files easier.
+After instantiating this template repository, you will need to manually do the
+following:
+
+1. Write your code in the `main.ts` file. You can use `npm:` specifiers, `http:`
+   imports, `node:` builtins, and even `Deno.*` APIs.
+2. Make sure you edit the `.github/workflows/test-action.yml` test workflow if you
+   want to test any additional inputs or scenarios.
+3. Replace the `LICENSE` file with your preferred software license. Check out
+   [choosealicense.com] if you're unsure of which one to pick.
+4. Replace this `README.md` file with a fancy readme to suit your new GitHub
+   Action. Make sure you document all your inputs & outputs!
+5. Create a new Release (with **no build step**) on GitHub Releases and publish
+   your new GitHub Action to the [GitHub Actions Marketplace]! 🚀
+
+You'll notice that the example code uses `npm:` imports to directly import from
+npm. If you want to get more advanced, you can use an [import map] in a
+`deno.json` [Deno configuration file] to alias `@actions/core` to a specific
+version shared across your action.
 
 <table align=center><td>
 
@@ -100,8 +61,8 @@ your `main.ts` Deno script. You can use this to provide an [import map] inside t
 // deno.json
 {
   "imports": {
-    "@actions/core": "npm:@actions/core@^1.10.1",
-    "@actions/github": "npm:@actions/github@^6.0.0"
+    "@actions/core": "npm:@actions/core@1.10.1",
+    "@actions/github": "npm:@actions/github@6.0.0"
   }
 }
 ```
@@ -116,39 +77,12 @@ import * as github from "@actions/github";
 
 </table>
 
-### Options
-
-- **`using`:** Specifies the runtime to use similar to the native `runs.using` value. This value **must be `deno1`**.
-
-- **`main`:** The file that contains your action code. This can be a JavaScript file or a TypeScript file. The runtime specified in using executes this file. This is **required**.
-
-`pre`, `pre-if`, `post`, and `post-if` from the native Node.js runtime are **not currently supported**.
-
-Got other ideas for options? [Open an Issue!]
-
-## How it works
-
-The `action.yml` file acts as **both** a YAML manifest file and a CommonJS Node.js JavaScript file through clever comment trickery. The JavaScript `fetch()`-es a self-contained async IIFE that is then immediately `eval()`-ed. The `eval()`-ed code will then find the `action.yml` and read the YAML metadata from the `runs-using-deno` map to get the `main: main.ts` or similar entry and invoke `deno run -A /path/to/main.ts` or similar.
-
-## Development
-
-![Vite](https://img.shields.io/static/v1?style=for-the-badge&message=Vite&color=646CFF&logo=Vite&logoColor=FFFFFF&label=)
-
-There's not really a good local test loop. The best way to test the code is to
-run the `test/action.yml` in GitHub Actions on each push or Pull Request. To
-test your changes, just push to the `main` branch or open a Pull Request (even a
-Draft one). 👍
-
-This npm package **hardcodes** the Deno version that is installed. Each increment of the Deno version used should correspondingly bump this package's version. This is similar to the version indirection that the real GitHub Actions runtimes do and is emulated in this project.
-
-**Why no `pre` and `post`?** Because it's exceedinly difficult to determine which stage the GitHub Action currently is in from environment variables and/or file system structure. If you have an idea to reuse the `main: action.yml` for `pre: action.yml` and `post: action.yml` and differentiate between them, I'm open to ideas! ❤️
-
-Since some users may be using the `@2` or other semver range specifiers, **make very sure** that it works before publishing a new version. That means probably doing a prerelease
-
 <!-- prettier-ignore-start -->
+[import map]: https://docs.deno.com/runtime/manual/basics/import_maps
 [deno configuration file]: https://docs.deno.com/runtime/manual/getting_started/configuration_file
-[`test/` folder]: https://github.com/jcbhmr/runs-using-deno/tree/main/test
-[the deno manual]: https://docs.deno.com/runtime/manual
-[import map]: https://github.com/WICG/import-maps
-[open an issue!]: https://github.com/jcbhmr/runs-using-deno/issues
+[deno runtime]: https://deno.com/
+[choosealicense.com]: https://choosealicense.com/
+[github actions marketplace]: https://github.com/marketplace?type=actions
+[actions/hello-world-javascript-action]: https://github.com/actions/hello-world-javascript-action
+[0bsd licensed]: https://github.com/jcbhmr/hello-world-deno-action/blob/main/LICENSE
 <!-- prettier-ignore-end -->

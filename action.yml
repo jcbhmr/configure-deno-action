@@ -1,20 +1,15 @@
-/*: # https://github.com/jcbhmr/runs-using-shebang
-name: Shebang runtime for GitHub Actions
-description: "👨‍💻 Author your actions in #!deno, #!python, or anything"
+name: Hello world!
+description: 👋 Greet someone and record the time
 
-# https://github.com/jcbhmr/runs-using-shebang
+inputs:
+  name:
+    description: Who to greet
+    default: ${{ github.actor }}
+
+outputs:
+  time:
+    description: The time we greeted you
+
 runs:
   using: node20
-  main: action.yml
-# */ "use strict"; /*
-# */ (async () => { /*
-# */   const { spawn } = await import("node:child_process"); /*
-# */   const { join, dirname } = await import("node:path"); /*
-# */   const { once } = await import("node:events"); /*
-# */   const main = "main.ts"; /*
-# */   const path = join(dirname(process.argv[2]), main); /*
-# */   const subprocess = spawn(path, { stdio: "inherit", shell: "bash" }); /*
-# */   await once(subprocess, "spawn"); /*
-# */   subprocess.on("exit", (exitCode) => process.exit(exitCode)); /*
-# */ })(); /*
-# */
+  main: _main.mjs
