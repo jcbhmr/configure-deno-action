@@ -1,11 +1,12 @@
-# Raw runtime for GitHub Actions
+# GitHub Actions shebang
 
-🦕 Write your GitHub Actions in Deno
+🦕 Write your GitHub Actions using Deno, Bash, Python, Go, or anything!
 
 <table align=center><td>
 
 ```ts
-
+// 2>/dev/null; v=1.38.0; ...; exec ".../bin/deno" run -Aq "$0" "$@"
+console.log("Hello Deno!")
 ```
 
 <td>
