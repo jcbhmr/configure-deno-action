@@ -1,35 +1,14 @@
-name: test/action.yml
+name: Test action
 on:
   push:
     branches: "main"
-    paths-ignore:
-      - .gitignore
-      - LICENSE
-      - README.md
-      - .github/**
-      - "!.github/workflows/test-action.yml"
   pull_request:
-    paths-ignore:
-      - .gitignore
-      - LICENSE
-      - README.md
-      - .github/**
-      - "!.github/workflows/test-action.yml"
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 jobs:
   test-action:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    defaults:
-      run:
-        shell: bash
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci
-      - run: npm run build
-      - uses: ./test
+      - id: main
+        uses: ./
+      - shell: cat {0}
+        run: ${{ toJSON(steps.main.outputs) }}

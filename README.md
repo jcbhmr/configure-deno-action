@@ -1,12 +1,14 @@
-# Deno runtime for GitHub Actions
+# "Hello world!" GitHub Action using Deno
 
-🦕 Write your GitHub Actions in Deno
+🦕 Demo action using Deno \
+💡 Inspired by [actions/hello-world-javascript-action]
 
 <table align=center><td>
 
 ```ts
-import * as core from "npm:@actions/core@^1.10.1";
-import * as github from "npm:@actions/github@^6.0.0";
+import * as core from "npm:@actions/core";
+import * as github from "npm:@actions/github";
+
 console.log("github.context.payload", github.context.payload);
 console.log(`Hello ${core.getInput("name")}!`);
 core.setOutput("time", new Date().toLocaleTimeString());
@@ -14,66 +16,44 @@ core.setOutput("time", new Date().toLocaleTimeString());
 
 </table>
 
-✍ Lets you write your GitHub Actions using TypeScript \
-🚀 Supports `node_modules`-less development \
-🦕 Uses the Deno runtime for your GitHub Action \
-👨‍💻 Extremely hackish, but it works!
+🟦 Uses TypeScript \
+😍 No compile step! \
+🦕 Runs on the [Deno runtime] \
+👩‍⚖️ [0BSD licensed] template
 
-## Installation
-
-![Node.js](https://img.shields.io/static/v1?style=for-the-badge&message=Node.js&color=339933&logo=Node.js&logoColor=FFFFFF&label=)
-
-📋 Looking for a premade template? Check out [jcbhmr/hello-world-deno-action]!
-
-Create `_main.mjs` (or some other `.mjs` file with `main` in it) and add this
-JavaScript code to it:
-
-```js
-// _main.mjs
-// https://github.com/jcbhmr/runs-using-deno
-const response = await fetch("https://unpkg.com/runs-using-deno@1.2.2");
-const buffer = Buffer.from(await response.arrayBuffer());
-await import(`data:text/javascript;base64,${buffer.toString("base64")}`);
-```
-
-📌 Make sure you keep that pinned version up to date! 😉
-
-<details><summary>⬇️ You can also download and commit a local copy if you prefer</summary>
-
-```sh
-wget https://unpkg.com/runs-using-deno -O _main.mjs
-```
-
-⚠️ The latest version of Deno will still be downloaded dynamically.
-
-</details>
-
-ℹ This tool sniffs the `(main|pre|post)` name from the `process.argv[1]` file
-(the entry point) so make sure you name your `main: main.mjs` something like
-`_main.mjs` or `.main.mjs`. It's recommended to use the `.mjs` extension so that
-the script is interpreted as ESM even when no Node.js `package.json`
-`type: "module"` is present.
+[💬 Read the blog post]()
 
 ## Usage
 
 ![Deno](https://img.shields.io/static/v1?style=for-the-badge&message=Deno&color=000000&logo=Deno&logoColor=FFFFFF&label=)
 ![GitHub Actions](https://img.shields.io/static/v1?style=for-the-badge&message=GitHub+Actions&color=2088FF&logo=GitHub+Actions&logoColor=FFFFFF&label=)
 
-To use this wrapper, add the following to your `action.yml`:
+<img align=right src="https://github.com/jcbhmr/hello-world-deno-action/assets/61068799/42566bcc-4466-4601-9aee-c78484589b44">
 
-```yml
-# action.yml
-runs:
-  using: node20
-  main: _main.mjs
-runs-using-deno:
-  using: deno1
-  main: main.ts
-```
+This is a **template repository** that is meant to be used as a base or example
+for your own project. To get started, just click the <kbd>Use this
+template</kbd> button in the top left of this repository page and edit the
+`main.ts` file to customize your new Deno-based GitHub Action. There's no
+`node_modules/`, no `dist/`, and no compile step. How's that for ease-of-use! 😉
 
-💡 Deno will auto-detect a `deno.json` [Deno configuration file] if it's near
-your `main.ts` Deno script. You can use this to provide an import map inside the
-`deno.json` to make importing the same libraries across multiple files easier.
+After instantiating this template repository, you will need to manually do the
+following:
+
+1. Write your code in the `main.ts` file. You can use `npm:` specifiers, `http:`
+   imports, `node:` builtins, and even `Deno.*` APIs.
+2. Make sure you edit the `.github/workflows/test-action.yml` test workflow if you
+   want to test any additional inputs or scenarios.
+3. Replace the `LICENSE` file with your preferred software license. Check out
+   [choosealicense.com] if you're unsure of which one to pick.
+4. Replace this `README.md` file with a fancy readme to suit your new GitHub
+   Action. Make sure you document all your inputs & outputs!
+5. Create a new Release (with **no build step**) on GitHub Releases and publish
+   your new GitHub Action to the [GitHub Actions Marketplace]! 🚀
+
+You'll notice that the example code uses `npm:` imports to directly import from
+npm. If you want to get more advanced, you can use an [import map] in a
+`deno.json` [Deno configuration file] to alias `@actions/core` to a specific
+version shared across your action.
 
 <table align=center><td>
 
@@ -81,8 +61,8 @@ your `main.ts` Deno script. You can use this to provide an import map inside the
 // deno.json
 {
   "imports": {
-    "@actions/core": "npm:@actions/core@^1.10.1",
-    "@actions/github": "npm:@actions/github@^6.0.0"
+    "@actions/core": "npm:@actions/core@1.10.1",
+    "@actions/github": "npm:@actions/github@6.0.0"
   }
 }
 ```
@@ -97,58 +77,12 @@ import * as github from "@actions/github";
 
 </table>
 
-### `pre-if` and `post-if`
-
-To get the native `pre-if` and `post-if` behaviour, you **must** specify these
-keys on the native `runs` YAML map instead of the custom `runs-using-deno` YAML
-map.
-
-```yml
-# action.yml
-runs:
-  using: node20
-  main: _main.mjs
-  pre: _pre.mjs
-  post: _post.mjs
-
-  pre-if: runner.os == 'Linux'
-  post-if: runner.os == 'Windows'
-runs-using-deno:
-  using: deno1
-  main: main.ts
-  pre: pre.ts
-  post: post.ts
-```
-
-You'll need to create `_pre.mjs` and `_post.mjs` files as separate entry points.
-All of these should import the same `https://unpkg.com/runs-using-deno@1` module
-which will sniff the `(main|pre|post)` from the entry point file name and choose
-the right `runs-using-deno`-defined stage to run from there. Check out the
-[`test/` folder] for a demo of an action using `_main.mjs`, `_pre.mjs`, and
-`_post.mjs`.
-
-## How it works
-
-This is a wrapper Node.js script that downloads, installs, and caches the latest
-Deno version. Then, using the fields from `action.yml`, it executes Deno with
-the `main: main.ts` script as a subprocess. You automagically inherit all the
-environment variables, working directory, GitHub context, and more. It's pretty
-seamless! You can even use the @actions/core and other packages to interact as
-you would in Node.js. To learn more about how the Deno runtime works, check out
-[the Deno manual].
-
-## Development
-
-![Vite](https://img.shields.io/static/v1?style=for-the-badge&message=Vite&color=646CFF&logo=Vite&logoColor=FFFFFF&label=)
-
-There's not really a good local test loop. The best way to test the code is to
-run the `test/action.yml` in GitHub Actions on each push or Pull Request. To
-test your changes, just push to the `main` branch or open a Pull Request (even a
-Draft one). 👍
-
 <!-- prettier-ignore-start -->
+[import map]: https://docs.deno.com/runtime/manual/basics/import_maps
 [deno configuration file]: https://docs.deno.com/runtime/manual/getting_started/configuration_file
-[`test/` folder]: https://github.com/jcbhmr/runs-using-deno/tree/main/test
-[the deno manual]: https://docs.deno.com/runtime/manual
-[jcbhmr/hello-world-deno-action]: https://github.com/jcbhmr/hello-world-deno-action
+[deno runtime]: https://deno.com/
+[choosealicense.com]: https://choosealicense.com/
+[github actions marketplace]: https://github.com/marketplace?type=actions
+[actions/hello-world-javascript-action]: https://github.com/actions/hello-world-javascript-action
+[0bsd licensed]: https://github.com/jcbhmr/hello-world-deno-action/blob/main/LICENSE
 <!-- prettier-ignore-end -->
