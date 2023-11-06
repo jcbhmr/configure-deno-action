@@ -1,6 +1,6 @@
 # "Hello world!" GitHub Action using Deno
 
-🚀 Demo action using Deno \
+🦕 Demo action using Deno \
 💡 Inspired by [actions/hello-world-javascript-action]
 
 <table align=center><td>
