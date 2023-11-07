@@ -1,6 +1,7 @@
 import { spawn } from "node:child_process";
 import { once } from "node:events";
 import { join, dirname } from "node:path";
+import { existsSync } from "node:fs";
 const file = join(dirname(process.argv[1]), "main.ts"); // 👈 CHANGE ME!
 const response = await fetch("https://deno.com/versions.json");
 const json = await response.json();
