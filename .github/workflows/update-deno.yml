@@ -1,0 +1,24 @@
+on:
+  schedule:
+    - cron: "34 17 * * *"
+  workflow_dispatch:
+jobs:
+  update-deno:
+    permissions:
+      contents: write
+    strategy:
+      max-parallel: 1
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - shell: bash
+        run: |
+          deno_version=$(deno eval Deno.version.deno)
+          process_platform=$(node -p process.platform)
+          process_arch=$(node -p process.arch)
+          export DENO_INSTALL=".deno/$process_platform-$process_arch"
+          rm -rf "$DENO_INSTALL"
+          curl -fsSL https://deno.land/x/install/install.sh | sh -s "v$deno_version"
+      - uses: stefanzweifel/git-auto-commit-action@v5
