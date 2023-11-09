@@ -21,4 +21,5 @@ jobs:
           export DENO_INSTALL=".deno/$process_platform-$process_arch"
           rm -rf "$DENO_INSTALL"
           curl -fsSL https://deno.land/x/install/install.sh | sh -s "v$deno_version"
+          gzip "$DENO_INSTALL/bin/deno"
       - uses: stefanzweifel/git-auto-commit-action@v5
