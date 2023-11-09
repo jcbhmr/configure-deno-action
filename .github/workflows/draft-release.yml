@@ -1,0 +1,32 @@
+name: Draft release
+on: workflow_dispatch
+jobs:
+  draft-release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo "$TARGETS" | while read target; do
+            mkdir -p "target/$target"
+            deno compile --target "$target" -o "target/$target/main" main.ts
+          done
+        env:
+          TARGETS: |
+            x86_64-unknown-linux-gnu
+            x86_64-apple-darwin
+            x86_64-pc-windows-msvc
+      - run: gzip -r target
+      - run: |
+          git config user.name "GitHub Actions"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - run: |
+          git checkout -b draft-release-$RANDOM
+          git add -Af
+          git commit --allow-empty -m 'Draft release'
+          git push -u origin "$(git branch --show-current)"
+          gh release create '?' --draft --target "$(git rev-parse HEAD)"
+          git push -d origin "$(git branch --show-current)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
