@@ -1,26 +1,36 @@
 name: Update Deno
 on:
-  schedule:
-    - cron: "34 17 * * *"
   workflow_dispatch:
+    inputs:
+      deno-version:
+        description: Semver specifier
+        type: string
+        required: true
 jobs:
   update-deno:
     permissions:
       contents: write
-    strategy:
-      max-parallel: 1
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - id: setup-deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ inputs.deno-version }}
       - shell: bash
         run: |
-          deno_version=$(deno eval Deno.version.deno)
-          process_platform=$(node -p process.platform)
-          process_arch=$(node -p process.arch)
-          export DENO_INSTALL=".deno/$process_platform-$process_arch"
-          rm -rf "$DENO_INSTALL"
-          curl -fsSL https://deno.land/x/install/install.sh | sh -s "v$deno_version"
-          gzip "$DENO_INSTALL/bin/deno"
+          echo "$TARGETS" | while read target; do
+            export DENO_INSTALL=".deno/$target"
+            curl -fsSL "https://github.com/denoland/deno/releases/download/v$DENO_VERSION/deno-$target.zip" -o "/tmp/deno-$target.zip"
+            rm -rf "$DENO_INSTALL"
+            unzip -d "$DENO_INSTALL" "/tmp/deno-$target.zip"
+            gzip "$DENO_INSTALL/bin/deno"
+          done
+        env:
+          DENO_VERSION: ${{ steps.setup-deno.outputs.deno-version }}
+          TARGETS: |
+            x86_64-pc-windows-msvc
+            x86_64-apple-darwin
+            aarch64-apple-darwin
+            x86_64-unknown-linux-gnu
       - uses: stefanzweifel/git-auto-commit-action@v5
