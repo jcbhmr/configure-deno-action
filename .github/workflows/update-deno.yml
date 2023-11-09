@@ -1,3 +1,4 @@
+name: Update Deno
 on:
   schedule:
     - cron: "34 17 * * *"
