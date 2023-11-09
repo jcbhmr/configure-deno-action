@@ -15,7 +15,6 @@ core.setOutput("time", new Date().toLocaleTimeString());
 </table>
 
 🟦 Uses TypeScript \
-😍 No compile step! \
 🦕 Runs on the [Deno runtime] \
 👩‍⚖️ [0BSD licensed] template
 
@@ -29,8 +28,7 @@ core.setOutput("time", new Date().toLocaleTimeString());
 This is a **template repository** that is meant to be used as a base or example
 for your own project. To get started, just click the <kbd>Use this
 template</kbd> button in the top left of this repository page and edit the
-`main.ts` file to customize your new Deno-based GitHub Action. There's no
-`node_modules/`, no `dist/`, and no compile step. How's that for ease-of-use! 😉
+`main.ts` file to customize your new Deno-based GitHub Action.
 
 After instantiating this template repository, you will need to manually do the
 following:
@@ -43,8 +41,10 @@ following:
    [choosealicense.com] if you're unsure of which one to pick.
 4. Replace this `README.md` file with a fancy readme to suit your new GitHub
    Action. Make sure you document all your inputs & outputs!
-5. Create a new Release (with **no build step**) on GitHub Releases and publish
-   your new GitHub Action to the [GitHub Actions Marketplace]! 🚀
+5. **Trigger the <kbd>Draft release</kbd> workflow** manually to create a Draft
+   release with the compiled Deno binaries embedded in the repository. After the
+   workflow completes, you'll see a <samp>Draft</samp> item in the Releases tab.
+   Now you can publish your new GitHub Action to the [GitHub Actions Marketplace]! 🚀
 
 You'll notice that the example code uses `npm:` imports to directly import from
 npm. If you want to get more advanced, you can use an [import map] in a
