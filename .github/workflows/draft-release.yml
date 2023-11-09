@@ -11,7 +11,7 @@ jobs:
       - run: |
           echo "$TARGETS" | while read target; do
             mkdir -p "target/$target"
-            deno compile --target "$target" -o "target/$target/main" main.ts
+            deno compile -A --target "$target" -o "target/$target/main" main.ts
           done
         env:
           TARGETS: |
